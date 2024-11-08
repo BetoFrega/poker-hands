@@ -5,9 +5,14 @@ import {Card, CardSuitEnum, CardValueEnum} from "../types/Card";
  */
 export const parseHandString = (handString: string): Card[] => {
     return handString.split(',').map(cardString => {
+        // TODO: validate input
+
+        const value: CardValueEnum = cardString[0] as CardValueEnum;
+        const suit: CardSuitEnum = cardString[1] as CardSuitEnum;
+
         return {
-            value: cardString[0] as CardValueEnum,
-            suit: cardString[1] as CardSuitEnum
+            value,
+            suit
         }
     })
 }
