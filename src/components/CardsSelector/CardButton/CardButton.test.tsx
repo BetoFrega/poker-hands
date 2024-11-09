@@ -24,5 +24,11 @@ describe("CardButton", () => {
       );
       expect(container).toMatchSnapshot();
     });
+    it("should render empty", () => {
+      const { container } = render(
+        <CardButton card={null} onClick={() => {}} />,
+      );
+      expect(container).toMatchSnapshot();
+    });
   });
 });

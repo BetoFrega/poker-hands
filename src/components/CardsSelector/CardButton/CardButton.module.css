@@ -1,25 +1,29 @@
 .CardButton {
-    border: var(--foreground) 3px solid;
-    border-radius: 2px;
-    cursor: pointer;
-    aspect-ratio: 3/4;
-    max-width: 100px;
-    text-align: center;
-    padding: 1em 0;
+  border: var(--foreground) 3px solid;
+  border-radius: 2px;
+  cursor: pointer;
+  aspect-ratio: 3/4;
+  max-width: 100px;
+  text-align: center;
+  padding: 1em 0;
 
-    & p {
-        margin: 0
-    }
+  & p {
+    margin: 0;
+  }
+}
+
+.empty {
+  border-style: dotted;
 }
 
 .CardValue {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 .CardSuit {
-    font-size: 2.5em;
+  font-size: 2.5em;
 }
 
 .selected {
-    filter: brightness(0.5);
+  filter: brightness(0.5);
 }

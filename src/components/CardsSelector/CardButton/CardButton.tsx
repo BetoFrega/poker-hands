@@ -1,3 +1,4 @@
+import { cx } from "@/helpers/cx";
 import { useCallback } from "react";
 import { Card, CardSuitEnum } from "../../../core/types/Card";
 import styles from "./CardButton.module.css";
@@ -14,8 +15,8 @@ export function CardButton({
   isSelected,
   onClick,
 }: {
-  card: Card;
-  onClick?: (value: Card) => void;
+  card: Card | null;
+  onClick?: (value: Card | null) => void;
   isSelected?: boolean;
 }) {
   const onClickHandler: () => void = useCallback(() => {
@@ -23,11 +24,19 @@ export function CardButton({
   }, [onClick, card]);
   return (
     <div
-      className={`${styles.CardButton} ${isSelected ? styles.selected : ""}`}
+      className={cx([
+        styles.CardButton,
+        isSelected && styles.selected,
+        card === null && styles.empty,
+      ])}
       onClick={onClickHandler}
     >
-      <p className={styles.CardValue}>{card.value}</p>
-      <p className={styles.CardSuit}>{suitIconMap[card.suit]}</p>
+      {card && (
+        <>
+          <p className={styles.CardValue}>{card.value}</p>
+          <p className={styles.CardSuit}>{suitIconMap[card.suit]}</p>
+        </>
+      )}
     </div>
   );
 }

@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`CardButton baseline should render empty 1`] = `
+<div>
+  <div
+    class="CardButton empty"
+  />
+</div>
+`;
+
 exports[`CardButton baseline should render selected 1`] = `
 <div>
   <div
@@ -22,7 +30,7 @@ exports[`CardButton baseline should render selected 1`] = `
 exports[`CardButton baseline should render unselected 1`] = `
 <div>
   <div
-    class="CardButton "
+    class="CardButton"
   >
     <p
       class="CardValue"
