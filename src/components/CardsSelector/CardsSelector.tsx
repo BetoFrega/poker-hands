@@ -5,14 +5,19 @@ import { SuitRow } from "./SuitRow/SuitRow";
 
 type Props = {
   selectedCards: Card[];
-  onSelect?: (value: Card[]) => void;
+  onSelect: (value: Card) => void;
 };
 
-export const CardsSelector = ({ selectedCards = [] }: Props) => {
+export const CardsSelector = ({ selectedCards = [], onSelect }: Props) => {
   return (
     <div className={`${styles.Container}`}>
       {Object.values(CardSuitEnum).map((suit) => (
-        <SuitRow key={suit} suit={suit} selectedCards={selectedCards} />
+        <SuitRow
+          key={suit}
+          suit={suit}
+          selectedCards={selectedCards}
+          onClick={onSelect}
+        />
       ))}
     </div>
   );

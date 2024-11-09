@@ -6,7 +6,8 @@ const cardValues = Object.values(CardValueEnum);
 export const SuitRow: React.FC<{
   suit: CardSuitEnum;
   selectedCards: Card[];
-}> = ({ selectedCards = [], suit }) => {
+  onClick: (value: Card) => void;
+}> = ({ selectedCards = [], suit, onClick }) => {
   return (
     <>
       {cardValues.map((cardValue) => {
@@ -22,6 +23,9 @@ export const SuitRow: React.FC<{
               (selectedCard) =>
                 cardValue === selectedCard.value && suit === selectedCard.suit,
             )}
+            onClick={(value) => {
+              if (value) onClick(value);
+            }}
           />
         );
       })}
