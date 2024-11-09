@@ -1,0 +1,20 @@
+.CardButton {
+    border: var(--foreground) 3px solid;
+    border-radius: 2px;
+    cursor: pointer;
+    aspect-ratio: 3/4;
+    max-width: 100px;
+    text-align: center;
+}
+
+.CardValue {
+    font-size: 2em;
+}
+
+.CardSuit {
+    font-size: 2.5em;
+}
+
+.selected {
+    filter: brightness(0.5);
+}
