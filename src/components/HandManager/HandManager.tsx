@@ -1,4 +1,5 @@
 import React, { ComponentProps, useState } from "react";
+import { cardInArray, removeCardFromArray } from "../../core/actions/cardArray";
 import { Card } from "../../core/types/Card";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
@@ -9,7 +10,11 @@ export const HandManager: React.FC = () => {
   const selectionHandler: ComponentProps<typeof CardsSelector>["onSelect"] = (
     card,
   ) => {
-    if (cards.length < 5) setCards((cards) => [...cards, card]);
+    if (cardInArray(cards, card)) {
+      setCards((cards) => removeCardFromArray(cards, card));
+    } else if (cards.length < 5) {
+      setCards((cards) => [...cards, card]);
+    }
   };
 
   return (
