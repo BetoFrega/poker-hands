@@ -1,4 +1,47 @@
 .container {
-    display: grid;
-    gap: 10px
+  display: grid;
+  gap: 10px;
+}
+
+.button {
+  background: var(--background);
+  border: var(--foreground) 2px solid;
+  color: var(--foreground);
+  width: max-content;
+  padding: 1em;
+  cursor: pointer;
+
+  &:disabled {
+    filter: brightness(0.5);
+    cursor: auto;
+  }
+}
+
+.handContainer {
+  display: grid;
+  gap: 8px;
+  border: var(--foreground) 1px solid;
+  padding: 8px;
+  border-radius: 2px;
+}
+
+.selectedHand {
+  border-width: 3px;
+}
+
+.selectorContainer {
+  border: var(--foreground) 1px solid;
+  padding: 8px;
+  display: grid;
+  gap: 6px;
+  max-height: 0;
+  overflow: hidden;
+  transform-origin: top;
+  transform: rotateX(90deg);
+  transition: all 0.3s ease-in-out;
+}
+
+.open {
+  max-height: 1000px;
+  transform: rotateX(0deg);
 }
