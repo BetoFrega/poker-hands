@@ -1,4 +1,4 @@
-.ModalContainer {
+.Container {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
     gap: 10px;

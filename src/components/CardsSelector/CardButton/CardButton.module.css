@@ -5,6 +5,11 @@
     aspect-ratio: 3/4;
     max-width: 100px;
     text-align: center;
+    padding: 1em 0;
+
+    & p {
+        margin: 0
+    }
 }
 
 .CardValue {

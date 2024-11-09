@@ -4,7 +4,6 @@ import { CardSuitEnum, CardValueEnum } from "../../../core/types/Card";
 import { CardButton } from "./CardButton";
 
 const meta: Meta<typeof CardButton> = {
-  title: "Components/Cards Selector/CardButton",
   component: CardButton,
   args: {
     card: {
