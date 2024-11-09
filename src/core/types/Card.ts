@@ -1,24 +1,27 @@
 export enum CardValueEnum {
-    Ace = 'A',
-    Two = '2',
-    Three = '3',
-    Four = '4',
-    Five = '5',
-    Six = '6',
-    Seven = '7',
-    Eight = '8',
-    Nine = '9',
-    Ten = 'T',
-    Jack = 'J',
-    Queen = 'Q',
-    King = 'K',
+  Ace = "A",
+  Two = "2",
+  Three = "3",
+  Four = "4",
+  Five = "5",
+  Six = "6",
+  Seven = "7",
+  Eight = "8",
+  Nine = "9",
+  Ten = "T",
+  Jack = "J",
+  Queen = "Q",
+  King = "K",
 }
 
 export enum CardSuitEnum {
-    Hearts = 'h', Diamonds = 'd', Clubs = 'c', Spades = 's'
+  Hearts = "h",
+  Diamonds = "d",
+  Clubs = "c",
+  Spades = "s",
 }
 
 export type Card = {
-    value: CardValueEnum
-    suit: CardSuitEnum
-}
+  value: CardValueEnum;
+  suit: CardSuitEnum;
+};
