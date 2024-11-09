@@ -15,7 +15,9 @@ const meta: Meta<typeof CardButton> = {
 };
 export default meta;
 
-export const Unselected: StoryObj<typeof CardButton> = {};
-export const Selected: StoryObj<typeof CardButton> = {
+type Story = StoryObj<typeof CardButton>;
+export const Unselected: Story = {};
+export const Selected: Story = {
   args: { isSelected: true },
 };
+export const Empty: Story = { args: { card: null } };
