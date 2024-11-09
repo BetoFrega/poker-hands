@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardSuitEnum, CardValueEnum } from "../../../core/types/Card";
-import { CardButton } from "../CardButton/CardButton";
+import { CardButton } from "../../CardButton/CardButton";
 
 const cardValues = Object.values(CardValueEnum);
 export const SuitRow: React.FC<{

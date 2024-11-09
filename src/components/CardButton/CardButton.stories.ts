@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { CardSuitEnum, CardValueEnum } from "../../../core/types/Card";
+import { CardSuitEnum, CardValueEnum } from "../../core/types/Card";
 import { CardButton } from "./CardButton";
 
 const meta: Meta<typeof CardButton> = {

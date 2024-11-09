@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "../../core/types/Card";
-import { CardButton } from "../CardsSelector/CardButton/CardButton";
+import { CardButton } from "../CardButton/CardButton";
 import styles from "./HandDisplay.module.css";
 
 type Props = {

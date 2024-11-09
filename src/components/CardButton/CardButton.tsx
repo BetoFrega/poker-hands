@@ -1,6 +1,6 @@
-import { cx } from "@/helpers/cx";
 import { useCallback } from "react";
-import { Card, CardSuitEnum } from "../../../core/types/Card";
+import { Card, CardSuitEnum } from "../../core/types/Card";
+import { cx } from "../../helpers/cx";
 import styles from "./CardButton.module.css";
 
 const suitIconMap: Record<CardSuitEnum, string> = {
