@@ -3,6 +3,10 @@
   gap: 10px;
 }
 
+.handRank {
+  text-align: center;
+  font-size: 2em;
+}
 .button {
   background: var(--foreground);
   border: var(--foreground) 2px solid;
