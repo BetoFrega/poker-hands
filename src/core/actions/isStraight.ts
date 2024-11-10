@@ -1,6 +1,6 @@
 import { Card, CardValueEnum } from "../types/Card";
 
-const getValueOrder = (isKingPresent: boolean) => {
+export const getValueOrder = (isKingPresent: boolean) => {
   const valueOrder: string[] = [
     "2",
     "3",
