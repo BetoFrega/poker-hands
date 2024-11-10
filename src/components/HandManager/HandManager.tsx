@@ -6,7 +6,10 @@ import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
 import styles from "./HandManager.module.css";
 
-export const HandManager: React.FC = () => {
+type Props = {
+  invertedLayout?: boolean;
+};
+export const HandManager: React.FC<Props> = ({ invertedLayout }) => {
   const [cards, setCards] = useState<Card[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectionHandler: ComponentProps<typeof CardsSelector>["onSelect"] = (
@@ -21,8 +24,13 @@ export const HandManager: React.FC = () => {
 
   return (
     <>
-      <div className={cx([styles.handContainer, isOpen && styles.open])}>
-        <p>First Hand</p>
+      <div
+        className={cx([
+          styles.handContainer,
+          invertedLayout && styles.inverted,
+        ])}
+      >
+        <p>{invertedLayout ? "Second Player" : "First Player"}</p>
         <HandDisplay cards={cards} />
         <button
           className={styles.button}

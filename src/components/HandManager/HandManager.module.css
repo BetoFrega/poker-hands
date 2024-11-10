@@ -4,29 +4,38 @@
 }
 
 .button {
-  background: var(--background);
+  background: var(--foreground);
   border: var(--foreground) 2px solid;
-  color: var(--foreground);
-  width: max-content;
+  color: var(--background);
+  width: 100%;
   padding: 1em;
+  margin: 1em 0;
   cursor: pointer;
+  height: 2em;
+  line-height: 0;
+  transition: all ease-in-out 100ms;
 
   &:disabled {
+    height: 0;
+    padding: 0;
     filter: brightness(0.5);
     cursor: auto;
+    overflow: hidden;
+    border: 0;
   }
 }
 
 .handContainer {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
   border: var(--foreground) 1px solid;
   padding: 8px;
   border-radius: 2px;
-}
 
-.open {
-  border-width: 3px;
+  &.inverted {
+    flex-direction: column-reverse;
+    direction: rtl;
+  }
 }
 
 .selectorContainer {
