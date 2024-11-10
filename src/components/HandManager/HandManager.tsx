@@ -1,15 +1,12 @@
-import React, { ComponentProps, useState } from "react";
+import React, { ComponentProps, useEffect, useMemo, useState } from "react";
 import { cardInArray, removeCardFromArray } from "../../core/actions/cardArray";
 import { HandRank, rankHand } from "../../core/actions/rankHand";
 import { Card } from "../../core/types/Card";
 import { cx } from "../../helpers/cx";
+import { isNumber } from "../../helpers/isNumber";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
 import styles from "./HandManager.module.css";
-
-type Props = {
-  invertedLayout?: boolean;
-};
 
 const handRankStringMap = {
   [HandRank.HighCard]: "High card",
@@ -22,8 +19,14 @@ const handRankStringMap = {
   [HandRank.FourOfAKind]: "Four of a kind",
   [HandRank.StraightFlush]: "Straight flush",
 };
-
-export const HandManager: React.FC<Props> = ({ invertedLayout }) => {
+type Props = {
+  invertedLayout?: boolean;
+  onRankChange: (value?: { rank: HandRank }) => void;
+};
+export const HandManager: React.FC<Props> = ({
+  invertedLayout,
+  onRankChange,
+}) => {
   const [cards, setCards] = useState<Card[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectionHandler: ComponentProps<typeof CardsSelector>["onSelect"] = (
@@ -35,7 +38,11 @@ export const HandManager: React.FC<Props> = ({ invertedLayout }) => {
       setCards((cards) => [...cards, card]);
     }
   };
-  const handRank = rankHand(cards);
+  const handRank = useMemo(() => rankHand(cards), [cards]);
+
+  useEffect(() => {
+    onRankChange(isNumber(handRank) ? { rank: handRank } : undefined);
+  }, [handRank, onRankChange]);
   return (
     <>
       <div
@@ -46,7 +53,7 @@ export const HandManager: React.FC<Props> = ({ invertedLayout }) => {
       >
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
         <HandDisplay cards={cards} />
-        {cards.length === 5 && <p>{handRankStringMap[handRank] || handRank}</p>}
+        {isNumber(handRank) && <p>{handRankStringMap[handRank]}</p>}
         <button
           className={styles.button}
           onClick={() => setIsOpen(true)}

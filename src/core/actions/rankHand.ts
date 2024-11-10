@@ -15,7 +15,8 @@ export enum HandRank {
   StraightFlush,
 }
 
-export const rankHand = (cards: Card[]) => {
+export const rankHand = (cards: Card[]): HandRank | null => {
+  if (cards.length !== 5) return null;
   const flush = isFlush(cards);
   const straight = isStraight(cards);
   if (straight && flush) {
