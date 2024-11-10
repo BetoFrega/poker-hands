@@ -1,6 +1,12 @@
 .Container {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
-    gap: 10px;
+    gap: 5px;
+    @media (min-width: 700px) {
+        gap: 7px;
+    }
+    @media (min-width: 1000px) {
+        gap: 9px;
+    }
     text-align: center;
 }
