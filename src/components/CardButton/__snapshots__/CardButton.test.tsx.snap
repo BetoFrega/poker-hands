@@ -3,15 +3,22 @@
 exports[`CardButton baseline should render empty 1`] = `
 <div>
   <div
-    class="CardButton empty"
-  />
+    class="CardButton empty pointer"
+  >
+    <p
+      class="CardValue"
+    />
+    <p
+      class="CardSuit"
+    />
+  </div>
 </div>
 `;
 
 exports[`CardButton baseline should render selected 1`] = `
 <div>
   <div
-    class="CardButton selected"
+    class="CardButton selected pointer"
   >
     <p
       class="CardValue"
@@ -30,7 +37,7 @@ exports[`CardButton baseline should render selected 1`] = `
 exports[`CardButton baseline should render unselected 1`] = `
 <div>
   <div
-    class="CardButton"
+    class="CardButton pointer"
   >
     <p
       class="CardValue"
