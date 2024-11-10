@@ -25,13 +25,13 @@
   border-radius: 2px;
 }
 
-.selectedHand {
+.open {
   border-width: 3px;
 }
 
 .selectorContainer {
   border: var(--foreground) 1px solid;
-  padding: 8px;
+  padding: 0;
   display: grid;
   gap: 6px;
   max-height: 0;
@@ -41,7 +41,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-.open {
+.openSelector {
+  padding: 8px;
   max-height: 1000px;
   transform: rotateX(0deg);
 }
