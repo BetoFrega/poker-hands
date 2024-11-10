@@ -28,15 +28,12 @@ export function CardButton({
         styles.CardButton,
         isSelected && styles.selected,
         card === null && styles.empty,
+        onClick && styles.pointer,
       ])}
       onClick={onClickHandler}
     >
-      {card && (
-        <>
-          <p className={styles.CardValue}>{card.value}</p>
-          <p className={styles.CardSuit}>{suitIconMap[card.suit]}</p>
-        </>
-      )}
+      <p className={styles.CardValue}>{card?.value}</p>
+      <p className={styles.CardSuit}>{card && suitIconMap[card.suit]}</p>
     </div>
   );
 }
