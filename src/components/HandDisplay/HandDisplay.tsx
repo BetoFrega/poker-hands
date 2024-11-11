@@ -8,7 +8,7 @@ type Props = {
 };
 export const HandDisplay: React.FC<Props> = (props) => {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} aria-label={"Selected hand"}>
       {props.cards.map((card) => (
         <CardButton card={card} key={card.value + card.suit} />
       ))}

@@ -1,25 +1,70 @@
-import { describe, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { screen } from "@testing-library/dom";
 import { fireEvent, render, within } from "@testing-library/react";
 import { PokerHandComparison } from "./PokerHandComparison";
 import "@testing-library/jest-dom";
 
-function getCardSelector(player: 1 | 2) {
-  return screen.getByLabelText(`P${player} Card Selector`);
+const getCardSelector = (player: 1 | 2) =>
+  screen.getByLabelText(`P${player} Card Selector`);
+
+const getPlayerInteractions = (player: 1 | 2) => ({
+  click: (cardName: string) => {
+    fireEvent.click(within(getCardSelector(player)).getByLabelText(cardName));
+  },
+});
+
+const getPlayerSection = (player: 1 | 2) =>
+  screen.getByLabelText(`Player ${player} section`);
+
+const getSelectedHand = (player: 1 | 2) =>
+  within(getPlayerSection(player)).getByLabelText("Selected hand");
+
+const selectCards = (player: 1 | 2, cardNames: string[]): void => {
+  const playerInteractions = getPlayerInteractions(player);
+  cardNames.forEach((cardName) => playerInteractions.click(cardName));
+};
+
+function getHandRank(player: 1 | 2) {
+  return within(getPlayerSection(player)).getByLabelText("Hand rank");
 }
 
-const getCardClickerForPlayer = (player: 1 | 2) => {
-  return (cardName: string) => {
-    fireEvent.click(within(getCardSelector(player)).getByLabelText(cardName));
-  };
+const playHandAndCheckRank = (
+  player: 1 | 2,
+  cardNames: string[],
+  expectedRank: string,
+): void => {
+  selectCards(player, cardNames);
+  const selectedHand = getSelectedHand(player);
+  cardNames.forEach((cardName) =>
+    expect(within(selectedHand).getByLabelText(cardName)).toBeInTheDocument(),
+  );
+  expect(getHandRank(player)).toHaveTextContent(expectedRank);
 };
 
 describe("User Journey Tests", () => {
-  it("should perform the entire user journey", () => {
+  it("should perform the user journey happy path", () => {
     render(<PokerHandComparison />);
-
-    const player1CardClicker = getCardClickerForPlayer(1);
-    player1CardClicker(`Ace of Spades`);
-    // const p2CardSelector = screen.getByLabelText("P2 Card Selector");
+    playHandAndCheckRank(
+      1,
+      [
+        "Ace of Spades",
+        "Two of Spades",
+        "Three of Spades",
+        "Four of Spades",
+        "Five of Spades",
+      ],
+      "Straight flush",
+    );
+    playHandAndCheckRank(
+      2,
+      [
+        "Ace of Clubs",
+        "Ace of Hearts",
+        "Ace of Diamonds",
+        "Four of Hearts",
+        "Four of Diamonds",
+      ],
+      "Full house",
+    );
   });
 });

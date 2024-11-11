@@ -52,10 +52,13 @@ export const HandManager: React.FC<Props> = ({
           styles.handContainer,
           invertedLayout && styles.inverted,
         ])}
+        aria-label={`Player ${player} section`}
       >
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
         <HandDisplay cards={cards} />
-        {isNumber(handRank) && <p>{handRankStringMap[handRank]}</p>}
+        {isNumber(handRank) && (
+          <p aria-label="Hand rank">{handRankStringMap[handRank]}</p>
+        )}
         <button
           className={styles.button}
           onClick={() => setIsOpen(true)}
