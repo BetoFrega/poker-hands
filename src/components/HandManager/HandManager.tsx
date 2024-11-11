@@ -21,11 +21,13 @@ const handRankStringMap = {
 };
 type Props = {
   invertedLayout?: boolean;
+  player: 1 | 2;
   onRankChange: (value?: { rank: HandRank }) => void;
 };
 export const HandManager: React.FC<Props> = ({
   invertedLayout,
   onRankChange,
+  player,
 }) => {
   const [cards, setCards] = useState<Card[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -59,13 +61,14 @@ export const HandManager: React.FC<Props> = ({
           onClick={() => setIsOpen(true)}
           disabled={isOpen}
         >
-          {isOpen ? "Selecting" : "Select"} cards
+          {isOpen ? "Selecting" : "Select"} P{player} cards
         </button>
         <div
           className={cx([
             styles.selectorContainer,
             isOpen && styles.openSelector,
           ])}
+          aria-label={`P${player} Card Selector`}
         >
           <button onClick={() => setIsOpen(false)}>Close 🅧</button>
           <CardsSelector selectedCards={cards} onSelect={selectionHandler} />

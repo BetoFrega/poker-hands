@@ -32,7 +32,7 @@ export const PokerHandComparison: React.FC = () => {
   const onSecondRankChange = useRankChangeCallback(setRanks, "secondHand");
   return (
     <div className={styles.container}>
-      <HandManager onRankChange={onFirstRankChange} />
+      <HandManager onRankChange={onFirstRankChange} player={1} />
       {isNumber(ranks.firstHand?.rank) && isNumber(ranks.secondHand?.rank) && (
         <div>
           {ranks.firstHand?.rank === ranks.secondHand?.rank ? (
@@ -48,7 +48,11 @@ export const PokerHandComparison: React.FC = () => {
           )}
         </div>
       )}
-      <HandManager invertedLayout onRankChange={onSecondRankChange} />
+      <HandManager
+        invertedLayout
+        onRankChange={onSecondRankChange}
+        player={2}
+      />
     </div>
   );
 };
