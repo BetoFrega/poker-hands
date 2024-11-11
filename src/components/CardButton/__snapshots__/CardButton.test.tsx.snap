@@ -3,7 +3,9 @@
 exports[`CardButton baseline should render empty 1`] = `
 <div>
   <div
+    aria-label="Empty card"
     class="CardButton empty pointer"
+    role="button"
   >
     <p
       class="CardValue"
@@ -18,7 +20,9 @@ exports[`CardButton baseline should render empty 1`] = `
 exports[`CardButton baseline should render selected 1`] = `
 <div>
   <div
+    aria-label="Ace of Hearts"
     class="CardButton selected pointer"
+    role="button"
   >
     <p
       class="CardValue"
@@ -37,7 +41,9 @@ exports[`CardButton baseline should render selected 1`] = `
 exports[`CardButton baseline should render unselected 1`] = `
 <div>
   <div
+    aria-label="Ace of Hearts"
     class="CardButton pointer"
+    role="button"
   >
     <p
       class="CardValue"
