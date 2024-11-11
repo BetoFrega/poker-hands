@@ -66,5 +66,8 @@ describe("User Journey Tests", () => {
       ],
       "Full house",
     );
+    expect(screen.getByLabelText("Hand comparison result")).toHaveTextContent(
+      "Player 1 wins!",
+    );
   });
 });
