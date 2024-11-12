@@ -1,6 +1,6 @@
-import { describe, expect, it } from "@jest/globals";
-import { screen } from "@testing-library/dom";
-import { fireEvent, render, within } from "@testing-library/react";
+import { beforeEach, describe, expect, it } from "@jest/globals";
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import { PokerStore } from "../../core/store/PokerStore";
 import { PokerHandComparison } from "./PokerHandComparison";
 import "@testing-library/jest-dom";
 
@@ -42,6 +42,10 @@ const playHandAndCheckRank = (
 };
 
 describe("User Journey Tests", () => {
+  const pokerStore = PokerStore.getInstance();
+  beforeEach(() => {
+    pokerStore.reset();
+  });
   it("should perform the user journey happy path", () => {
     render(<PokerHandComparison />);
     playHandAndCheckRank(
@@ -70,7 +74,7 @@ describe("User Journey Tests", () => {
       "Player 1 wins!",
     );
   });
-  it.skip("should not allow one player to pick the same cards as the other", () => {
+  it("should not allow one player to pick the same cards as the other", () => {
     render(<PokerHandComparison />);
     const cardNames: string[] = [
       "Ace of Spades",
@@ -88,5 +92,22 @@ describe("User Journey Tests", () => {
       ).not.toBeInTheDocument(),
     );
     expect(getHandRank(2)).not.toBeInTheDocument();
+  });
+  it("should allow a player to return cards by clicking the selector cards", () => {
+    render(<PokerHandComparison />);
+    const cardNames: string[] = [
+      "Ace of Spades",
+      "Two of Spades",
+      "Three of Spades",
+      "Four of Spades",
+      "Five of Spades",
+    ];
+    playHandAndCheckRank(1, cardNames, "Straight flush");
+    const player1_selectedHand = getSelectedHand(1);
+    selectCards(1, ["Ace of Spades"]);
+    expect(
+      within(player1_selectedHand).queryByLabelText("Ace of Spades"),
+    ).not.toBeInTheDocument();
+    expect(getHandRank(1)).not.toBeInTheDocument();
   });
 });

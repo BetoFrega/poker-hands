@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { DeckCard } from "../../core/store/PokerStore";
-import { Card, CardSuitEnum, CardValueEnum } from "../../core/types/Card";
+import { CardSuitEnum, CardValueEnum } from "../../core/types/Card";
 import { cx } from "../../helpers/cx";
 import styles from "./CardButton.module.css";
 
@@ -37,10 +37,10 @@ export function CardButton({
   onClick,
 }: {
   deckCard: DeckCard | null;
-  onClick?: (value?: Card) => void;
+  onClick?: (value: DeckCard | null) => void;
 }) {
   const onClickHandler: () => void = useCallback(() => {
-    onClick?.(deckCard?.card);
+    onClick?.(deckCard);
   }, [onClick, deckCard]);
   const cardName = deckCard
     ? `${valueNameMap[deckCard.card.value]} of ${suitNameMap[deckCard.card.suit]}`
