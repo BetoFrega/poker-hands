@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
-import { CardSuitEnum, CardValueEnum } from "../types/Card";
+import { CardSuitEnum, CardValueEnum } from "../core/types/Card";
 import { usePokerStore } from "./usePokerStore";
 
 describe("usePokerStore", () => {

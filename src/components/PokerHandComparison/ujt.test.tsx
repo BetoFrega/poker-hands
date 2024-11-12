@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { PokerStore } from "../../core/store/PokerStore";
+import { PokerStore } from "../../store/PokerStore";
 import { PokerHandComparison } from "./PokerHandComparison";
 import "@testing-library/jest-dom";
 

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { DeckCard } from "../../core/store/PokerStore";
-import { usePokerStore } from "../../core/store/usePokerStore";
+import { DeckCard } from "../../store/PokerStore";
+import { usePokerStore } from "../../store/usePokerStore";
 import { CardButton } from "../CardButton/CardButton";
 import styles from "./CardsSelector.module.css";
 

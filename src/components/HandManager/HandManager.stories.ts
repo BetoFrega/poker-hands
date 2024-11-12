@@ -3,6 +3,9 @@ import { HandManager } from "./HandManager";
 
 const meta: Meta<typeof HandManager> = {
   component: HandManager,
+  args: {
+    player: 1,
+  },
 };
 export default meta;
 

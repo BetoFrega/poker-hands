@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HandRank } from "../../core/actions/rankHand";
-import { usePokerStore } from "../../core/store/usePokerStore";
 import { cx } from "../../helpers/cx";
+import { usePokerStore } from "../../store/usePokerStore";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
 import styles from "./HandManager.module.css";

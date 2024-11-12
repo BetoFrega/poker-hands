@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useSyncExternalStore } from "react";
-import { Winner } from "../../components/PokerHandComparison/WinnerDisplay";
-import { HandRank } from "../actions/rankHand";
-import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
+import { Winner } from "../components/PokerHandComparison/WinnerDisplay";
+import { HandRank } from "../core/actions/rankHand";
+import { Card, CardSuitEnum, CardValueEnum } from "../core/types/Card";
 import { fullHouseQueensKings, straightFlushClubs } from "./fixtures";
 import { PokerStore } from "./PokerStore";
 

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { DeckCard } from "../../core/store/PokerStore";
 import { CardSuitEnum, CardValueEnum } from "../../core/types/Card";
 import { cx } from "../../helpers/cx";
+import { DeckCard } from "../../store/PokerStore";
 import styles from "./CardButton.module.css";
 
 const suitIconMap: Record<CardSuitEnum, string> = {

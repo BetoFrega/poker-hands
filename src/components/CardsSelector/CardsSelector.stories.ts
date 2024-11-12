@@ -3,6 +3,9 @@ import { CardsSelector } from "./CardsSelector";
 
 const meta: Meta<typeof CardsSelector> = {
   component: CardsSelector,
+  args: {
+    player: 1,
+  },
 };
 export default meta;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { usePokerStore } from "../../core/store/usePokerStore";
+import { usePokerStore } from "../../store/usePokerStore";
 import { HandManager } from "../HandManager/HandManager";
 import styles from "./PokerHandComparison.module.css";
 import { WinnerDisplay } from "./WinnerDisplay";

@@ -1,4 +1,4 @@
-import { CardSuitEnum, CardValueEnum } from "../types/Card";
+import { CardSuitEnum, CardValueEnum } from "../core/types/Card";
 
 export const straightFlushClubs = [
   { suit: CardSuitEnum.Clubs, value: CardValueEnum.Ace },
