@@ -20,7 +20,7 @@ type GameState = {
   }[];
 };
 
-const makeState = () => ({
+const makeState = (): GameState => ({
   deck: Object.values(CardSuitEnum)
     .map((suit) => {
       return Object.values(CardValueEnum).map((value) => {
