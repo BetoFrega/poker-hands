@@ -20,7 +20,7 @@ type GameState = {
   }[];
 };
 
-const makeState = (): GameState => ({
+const makeInitialState = (): GameState => ({
   deck: Object.values(CardSuitEnum)
     .map((suit) => {
       return Object.values(CardValueEnum).map((value) => {
@@ -38,7 +38,7 @@ class PokerStore {
   private static instance: PokerStore;
   private listeners = new Set<StoreListener>();
   getListenerCount = () => this.listeners.size;
-  private store: GameState = makeState();
+  private store: GameState = makeInitialState();
 
   subscribe = (listener: StoreListener) => {
     this.listeners.add(listener);
@@ -73,7 +73,7 @@ class PokerStore {
     return this.store.hands[`player${player}`];
   }
 
-  reset = () => (this.store = makeState());
+  reset = () => (this.store = makeInitialState());
 }
 
 describe(PokerStore, () => {
