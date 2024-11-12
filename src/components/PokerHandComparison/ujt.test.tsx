@@ -25,7 +25,7 @@ const selectCards = (player: 1 | 2, cardNames: string[]): void => {
 };
 
 function getHandRank(player: 1 | 2) {
-  return within(getPlayerSection(player)).getByLabelText("Hand rank");
+  return within(getPlayerSection(player)).queryByLabelText("Hand rank");
 }
 
 const playHandAndCheckRank = (
@@ -69,5 +69,24 @@ describe("User Journey Tests", () => {
     expect(screen.getByLabelText("Hand comparison result")).toHaveTextContent(
       "Player 1 wins!",
     );
+  });
+  it.skip("should not allow one player to pick the same cards as the other", () => {
+    render(<PokerHandComparison />);
+    const cardNames: string[] = [
+      "Ace of Spades",
+      "Two of Spades",
+      "Three of Spades",
+      "Four of Spades",
+      "Five of Spades",
+    ];
+    playHandAndCheckRank(1, cardNames, "Straight flush");
+    selectCards(2, cardNames);
+    const player2_selectedHand = getSelectedHand(2);
+    cardNames.forEach((cardName) =>
+      expect(
+        within(player2_selectedHand).queryByLabelText(cardName),
+      ).not.toBeInTheDocument(),
+    );
+    expect(getHandRank(2)).not.toBeInTheDocument();
   });
 });
