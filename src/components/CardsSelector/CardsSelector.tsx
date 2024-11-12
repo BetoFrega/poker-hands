@@ -27,6 +27,7 @@ export const CardsSelector = ({ player }: Props) => {
         <CardButton
           deckCard={deckCard}
           onClick={clickHandler}
+          player={player}
           key={deckCard.card.value + deckCard.card.suit}
         />
       ))}

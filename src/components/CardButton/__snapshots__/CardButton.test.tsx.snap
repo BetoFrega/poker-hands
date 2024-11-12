@@ -21,7 +21,7 @@ exports[`CardButton baseline should render selected 1`] = `
 <div>
   <div
     aria-label="Ace of Hearts"
-    class="CardButton selected pointer"
+    class="CardButton unavailable pointer"
     role="button"
   >
     <p

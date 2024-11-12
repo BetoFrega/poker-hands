@@ -32,12 +32,22 @@ const valueNameMap: Record<CardValueEnum, string> = {
   [CardValueEnum.Ace]: "Ace",
 };
 
+function getCardStyle(deckCard: DeckCard | null, player: 1 | 2 | null) {
+  if (!deckCard) return styles.empty;
+  if (deckCard.hand) {
+    if (deckCard.hand === player) return styles.selected;
+    return styles.unavailable;
+  }
+}
+
 export function CardButton({
   deckCard,
   onClick,
+  player,
 }: {
   deckCard: DeckCard | null;
   onClick?: (value: DeckCard | null) => void;
+  player: 1 | 2 | null;
 }) {
   const onClickHandler: () => void = useCallback(() => {
     onClick?.(deckCard);
@@ -45,14 +55,10 @@ export function CardButton({
   const cardName = deckCard
     ? `${valueNameMap[deckCard.card.value]} of ${suitNameMap[deckCard.card.suit]}`
     : "Empty card";
+  const cardStyle = getCardStyle(deckCard, player);
   return (
     <div
-      className={cx([
-        styles.CardButton,
-        deckCard?.hand && styles.selected,
-        deckCard === null && styles.empty,
-        onClick && styles.pointer,
-      ])}
+      className={cx([styles.CardButton, cardStyle, onClick && styles.pointer])}
       onClick={onClickHandler}
       aria-label={cardName}
       role="button"
