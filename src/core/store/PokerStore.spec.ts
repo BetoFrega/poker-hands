@@ -56,6 +56,7 @@ class PokerStore {
   }
 
   pickCard = (player: 1 | 2, card: Card): void => {
+    if (this.getHand(player).length >= 5) return;
     this.store = produce(this.store, (draft) => {
       const cardIndex = this.store.deck.findIndex(
         (deckCard) =>
@@ -67,6 +68,10 @@ class PokerStore {
     });
     this.listeners.forEach((listener) => listener());
   };
+
+  private getHand(player: 1 | 2): Card[] {
+    return this.store.hands[`player${player}`];
+  }
 
   reset = () => (this.store = makeState());
 }
@@ -135,5 +140,20 @@ describe(PokerStore, () => {
     });
     expect(result.current.deck[0].hand).toBe(1);
     expect(result.current.hands.player1).toEqual([card]);
+  });
+  it("should not allow a player to pick more than 5 cards", () => {
+    const { result } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    const player = 1;
+    const cards = result.current.deck
+      .slice(0, 6)
+      .map((deckCard) => deckCard.card);
+    cards.forEach((card) => {
+      act(() => {
+        pokerStore.pickCard(player, card);
+      });
+    });
+    expect(result.current.hands.player1).toHaveLength(5);
   });
 });
