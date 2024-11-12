@@ -37,6 +37,7 @@ const makeState = () => ({
 class PokerStore {
   private static instance: PokerStore;
   private listeners = new Set<StoreListener>();
+  getListenerCount = () => this.listeners.size;
   private store: GameState = makeState();
 
   subscribe = (listener: StoreListener) => {
@@ -108,6 +109,14 @@ describe(PokerStore, () => {
       useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
     );
     expect(result).toBeDefined();
+  });
+  it("should remove the listener on unmount", () => {
+    const { unmount } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    expect(pokerStore.getListenerCount()).toBe(1);
+    unmount();
+    expect(pokerStore.getListenerCount()).toBe(0);
   });
   it("should list all cards in the deck", () => {
     const { result } = renderHook(() =>
