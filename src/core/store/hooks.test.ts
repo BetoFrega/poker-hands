@@ -20,7 +20,7 @@ describe("usePokerStore", () => {
         value: CardValueEnum.Ten,
       });
     });
-    expect(result.current.state.hands.player1).toHaveLength(1);
+    expect(result.current.state.hands.player1.cards).toHaveLength(1);
     expect(
       result.current.state.deck.find((deckCard) => deckCard.hand === 1),
     ).toBeDefined();

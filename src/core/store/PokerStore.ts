@@ -1,4 +1,5 @@
 import { produce } from "immer";
+import { HandRank, rankHand } from "../actions/rankHand";
 import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
 
 type StoreListener = () => void;
@@ -10,10 +11,11 @@ type DeckCard = {
    */
   hand?: 1 | 2;
 };
+type PlayerHand = { cards: Card[]; handRank: HandRank | null };
 type GameState = {
   hands: {
-    player1: Card[];
-    player2: Card[];
+    player1: PlayerHand;
+    player2: PlayerHand;
   };
   deck: DeckCard[];
 };
@@ -26,8 +28,8 @@ const makeInitialState = (): GameState => ({
     })
     .flat(),
   hands: {
-    player1: [],
-    player2: [],
+    player1: { cards: [], handRank: null },
+    player2: { cards: [], handRank: null },
   },
 });
 /**
@@ -62,7 +64,7 @@ export class PokerStore {
   getSnapshot = (): GameState => this.store;
 
   pickCard = (player: 1 | 2, card: Card): void => {
-    if (this.store.hands[`player${player}`].length >= 5) return;
+    if (this.store.hands[`player${player}`].cards.length >= 5) return;
     if (this.store.deck.find(getCardPredicate(card))?.hand) return;
     this.store = produce(this.store, (draft) => {
       const cardIndex = this.store.deck.findIndex(
@@ -71,7 +73,9 @@ export class PokerStore {
           deckCard.card.value === card.value,
       );
       draft.deck[cardIndex].hand = player;
-      draft.hands[`player${player}`].push(card);
+      const hand = draft.hands[`player${player}`];
+      hand.cards.push(card);
+      hand.handRank = rankHand(hand.cards);
     });
     this.listeners.forEach((listener) => listener());
   };
@@ -83,7 +87,9 @@ export class PokerStore {
     if (this.store.deck[cardIndex].hand !== player) return;
     this.store = produce(this.store, (draft) => {
       draft.deck[cardIndex].hand = undefined;
-      draft.hands[`player${player}`] = draft.hands[`player${player}`].filter(
+      draft.hands[`player${player}`].cards = draft.hands[
+        `player${player}`
+      ].cards.filter(
         (handCard) =>
           !(handCard.suit === card.suit && handCard.value === card.value),
       );

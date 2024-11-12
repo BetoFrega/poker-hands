@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useSyncExternalStore } from "react";
+import { HandRank } from "../actions/rankHand";
 import { CardSuitEnum, CardValueEnum } from "../types/Card";
 import { PokerStore } from "./PokerStore";
 
@@ -31,11 +32,11 @@ describe(PokerStore, () => {
       suit: CardSuitEnum.Spades,
       value: CardValueEnum.Ace,
     });
-    expect(pokerStore.getSnapshot().hands.player1).toHaveLength(2);
-    expect(pokerStore.getSnapshot().hands.player2).toHaveLength(2);
+    expect(pokerStore.getSnapshot().hands.player1.cards).toHaveLength(2);
+    expect(pokerStore.getSnapshot().hands.player2.cards).toHaveLength(2);
     pokerStore.reset();
-    expect(pokerStore.getSnapshot().hands.player1).toHaveLength(0);
-    expect(pokerStore.getSnapshot().hands.player2).toHaveLength(0);
+    expect(pokerStore.getSnapshot().hands.player1.cards).toHaveLength(0);
+    expect(pokerStore.getSnapshot().hands.player2.cards).toHaveLength(0);
   });
   it("should support useSyncExternalStore", () => {
     const { result } = renderHook(() =>
@@ -67,7 +68,7 @@ describe(PokerStore, () => {
       pokerStore.pickCard(player, card);
     });
     expect(result.current.deck[0].hand).toBe(1);
-    expect(result.current.hands.player1).toEqual([card]);
+    expect(result.current.hands.player1.cards).toEqual([card]);
   });
   it("should not allow a player to pick more than 5 cards", () => {
     const { result } = renderHook(() =>
@@ -82,7 +83,7 @@ describe(PokerStore, () => {
         pokerStore.pickCard(player, card);
       });
     });
-    expect(result.current.hands.player1).toHaveLength(5);
+    expect(result.current.hands.player1.cards).toHaveLength(5);
   });
   it("should not allow a player to pick a card that was already picked", () => {
     const { result } = renderHook(() =>
@@ -98,15 +99,15 @@ describe(PokerStore, () => {
       pokerStore.pickCard(2, card);
     });
     // player 1's hand has 1 card
-    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.hands.player1.cards).toHaveLength(1);
     // but player 2's hand still has no cards, because the card they tried to pick is not available
-    expect(result.current.hands.player2).toHaveLength(0);
+    expect(result.current.hands.player2.cards).toHaveLength(0);
     // player 1 then tries to pick the same card again
     act(() => {
       pokerStore.pickCard(1, card);
     });
     // but their hand still only holds 1 card
-    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.hands.player1.cards).toHaveLength(1);
   });
   it("should allow a player to return a card", () => {
     const { result } = renderHook(() =>
@@ -116,11 +117,11 @@ describe(PokerStore, () => {
     act(() => {
       pokerStore.pickCard(1, card);
     });
-    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.hands.player1.cards).toHaveLength(1);
     act(() => {
       pokerStore.returnCard(1, card);
     });
-    expect(result.current.hands.player1).toHaveLength(0);
+    expect(result.current.hands.player1.cards).toHaveLength(0);
   });
   it("should not allow a different player to return a card", () => {
     const { result } = renderHook(() =>
@@ -129,12 +130,35 @@ describe(PokerStore, () => {
     act(() => {
       pokerStore.pickCard(1, result.current.deck[0].card);
     });
-    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.hands.player1.cards).toHaveLength(1);
     expect(result.current.deck[0].hand).toBe(1);
     act(() => {
       pokerStore.returnCard(2, result.current.deck[0].card);
     });
-    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.hands.player1.cards).toHaveLength(1);
     expect(result.current.deck[0].hand).toBe(1);
+  });
+  describe("Card Ranking", () => {
+    const { result } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    const player = 1;
+    const cards = [
+      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Ace },
+      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Two },
+      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Three },
+      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Four },
+      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Five },
+    ];
+    cards.forEach((card) => {
+      act(() => {
+        pokerStore.pickCard(player, card);
+      });
+    });
+    it("should rank a hand", () => {
+      expect(result.current.hands.player1.handRank).toBe(
+        HandRank.StraightFlush,
+      );
+    });
   });
 });
