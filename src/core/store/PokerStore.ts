@@ -80,7 +80,12 @@ export class PokerStore {
     this.listeners.forEach((listener) => listener());
   };
 
-  reset = () => (this.store = makeInitialState());
+  reset = () => {
+    this.listeners.forEach((listener) => {
+      this.listeners.delete(listener);
+    });
+    this.store = makeInitialState();
+  };
 
   returnCard = (player: 1 | 2, card: Card) => {
     const cardIndex = this.store.deck.findIndex(getCardPredicate(card));

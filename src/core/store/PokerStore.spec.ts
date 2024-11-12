@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "@jest/globals";
+import { afterEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useSyncExternalStore } from "react";
 import { HandRank } from "../actions/rankHand";
@@ -7,7 +7,7 @@ import { PokerStore } from "./PokerStore";
 
 describe(PokerStore, () => {
   const pokerStore = PokerStore.getInstance();
-  beforeEach(() => {
+  afterEach(() => {
     pokerStore.reset();
   });
   it("should be a singleton", () => {
@@ -139,10 +139,6 @@ describe(PokerStore, () => {
     expect(result.current.deck[0].hand).toBe(1);
   });
   describe("Card Ranking", () => {
-    const { result } = renderHook(() =>
-      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
-    );
-    const player = 1;
     const cards = [
       { suit: CardSuitEnum.Clubs, value: CardValueEnum.Ace },
       { suit: CardSuitEnum.Clubs, value: CardValueEnum.Two },
@@ -150,21 +146,31 @@ describe(PokerStore, () => {
       { suit: CardSuitEnum.Clubs, value: CardValueEnum.Four },
       { suit: CardSuitEnum.Clubs, value: CardValueEnum.Five },
     ];
-
-    beforeEach(() => {
+    it("should rank a hand", () => {
+      const { result } = renderHook(() =>
+        useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+      );
       cards.forEach((card) => {
         act(() => {
-          pokerStore.pickCard(player, card);
+          pokerStore.pickCard(1, card);
         });
       });
-    });
-
-    it("should rank a hand", () => {
       expect(result.current.hands.player1.handRank).toBe(
         HandRank.StraightFlush,
       );
     });
     it("should de-rank a hand with less than 5 cards", () => {
+      const { result } = renderHook(() =>
+        useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+      );
+      cards.forEach((card) => {
+        act(() => {
+          pokerStore.pickCard(1, card);
+        });
+      });
+      expect(result.current.hands.player1.handRank).toBe(
+        HandRank.StraightFlush,
+      );
       act(() => {
         pokerStore.returnCard(1, cards[0]);
       });
