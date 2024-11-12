@@ -5,19 +5,20 @@ import { useSyncExternalStore } from "react";
 import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
 
 type StoreListener = () => void;
+type DeckCard = {
+  card: Card;
+  /**
+   * If a player has this card in their hand, this field will be set to player number.
+   * Otherwise, it will be undefined.
+   */
+  hand?: 1 | 2;
+};
 type GameState = {
   hands: {
     player1: Card[];
     player2: Card[];
   };
-  deck: {
-    card: Card;
-    /**
-     * If a player has this card in their hand, this field will be set to player number.
-     * Otherwise, it will be undefined.
-     */
-    hand?: 1 | 2;
-  }[];
+  deck: DeckCard[];
 };
 
 const makeInitialState = (): GameState => ({
@@ -34,17 +35,18 @@ const makeInitialState = (): GameState => ({
   },
 });
 
+/**
+ * Returns a predicate function that can be used to find a card in the deck.
+ */
+const getCardPredicate =
+  (card: Card): ((deckCard: DeckCard) => boolean) =>
+  (deckCard) =>
+    deckCard.card.suit === card.suit && deckCard.card.value === card.value;
+
 class PokerStore {
   private static instance: PokerStore;
   private listeners = new Set<StoreListener>();
-  getListenerCount = () => this.listeners.size;
   private store: GameState = makeInitialState();
-
-  subscribe = (listener: StoreListener) => {
-    this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
-  };
-  getSnapshot = (): GameState => this.store;
 
   private constructor() {}
 
@@ -55,9 +57,18 @@ class PokerStore {
     return PokerStore.instance;
   }
 
+  getListenerCount = () => this.listeners.size;
+
+  subscribe = (listener: StoreListener) => {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  };
+
+  getSnapshot = (): GameState => this.store;
+
   pickCard = (player: 1 | 2, card: Card): void => {
-    if (this.getPlayerHand(player).length >= 5) return;
-    if (this.getCardHand(card)) return;
+    if (this.store.hands[`player${player}`].length >= 5) return;
+    if (this.store.deck.find(getCardPredicate(card))?.hand) return;
     this.store = produce(this.store, (draft) => {
       const cardIndex = this.store.deck.findIndex(
         (deckCard) =>
@@ -70,18 +81,20 @@ class PokerStore {
     this.listeners.forEach((listener) => listener());
   };
 
-  private getCardHand(card: Card): 1 | 2 | undefined {
-    return this.store.deck.find(
-      (deckCard) =>
-        deckCard.card.suit === card.suit && deckCard.card.value === card.value,
-    )?.hand;
-  }
-
-  private getPlayerHand(player: 1 | 2): Card[] {
-    return this.store.hands[`player${player}`];
-  }
-
   reset = () => (this.store = makeInitialState());
+
+  returnCard = (player: 1 | 2, card: Card) => {
+    const cardIndex = this.store.deck.findIndex(getCardPredicate(card));
+    if (this.store.deck[cardIndex].hand !== player) return;
+    this.store = produce(this.store, (draft) => {
+      draft.deck[cardIndex].hand = undefined;
+      draft.hands[`player${player}`] = draft.hands[`player${player}`].filter(
+        (handCard) =>
+          !(handCard.suit === card.suit && handCard.value === card.value),
+      );
+    });
+    this.listeners.forEach((listener) => listener());
+  };
 }
 
 describe(PokerStore, () => {
@@ -187,5 +200,34 @@ describe(PokerStore, () => {
     });
     // but their hand still only holds 1 card
     expect(result.current.hands.player1).toHaveLength(1);
+  });
+  it("should allow a player to return a card", () => {
+    const { result } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    const card = result.current.deck[0].card;
+    act(() => {
+      pokerStore.pickCard(1, card);
+    });
+    expect(result.current.hands.player1).toHaveLength(1);
+    act(() => {
+      pokerStore.returnCard(1, card);
+    });
+    expect(result.current.hands.player1).toHaveLength(0);
+  });
+  it("should not allow a different player to return a card", () => {
+    const { result } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    act(() => {
+      pokerStore.pickCard(1, result.current.deck[0].card);
+    });
+    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.deck[0].hand).toBe(1);
+    act(() => {
+      pokerStore.returnCard(2, result.current.deck[0].card);
+    });
+    expect(result.current.hands.player1).toHaveLength(1);
+    expect(result.current.deck[0].hand).toBe(1);
   });
 });
