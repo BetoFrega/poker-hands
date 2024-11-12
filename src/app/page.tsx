@@ -1,6 +1,6 @@
 "use client";
-import { HandManager } from "../components/HandManager/HandManager";
+import { PokerHandComparison } from "../components/PokerHandComparison/PokerHandComparison";
 
 export default function Home() {
-  return <HandManager />;
+  return <PokerHandComparison />;
 }
