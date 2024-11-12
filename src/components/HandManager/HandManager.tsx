@@ -29,18 +29,18 @@ export const HandManager: React.FC<Props> = ({
   onRankChange,
   player,
 }) => {
-  const [cards, setCards] = useState<Card[]>([]);
+  const [selectedCards, setSelectedCards] = useState<Card[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectionHandler: ComponentProps<typeof CardsSelector>["onSelect"] = (
     card,
   ) => {
-    if (cardInArray(cards, card)) {
-      setCards((cards) => removeCardFromArray(cards, card));
-    } else if (cards.length < 5) {
-      setCards((cards) => [...cards, card]);
+    if (cardInArray(selectedCards, card)) {
+      setSelectedCards((cards) => removeCardFromArray(cards, card));
+    } else if (selectedCards.length < 5) {
+      setSelectedCards((cards) => [...cards, card]);
     }
   };
-  const handRank = useMemo(() => rankHand(cards), [cards]);
+  const handRank = useMemo(() => rankHand(selectedCards), [selectedCards]);
 
   useEffect(() => {
     onRankChange(isNumber(handRank) ? { rank: handRank } : undefined);
@@ -55,7 +55,7 @@ export const HandManager: React.FC<Props> = ({
         aria-label={`Player ${player} section`}
       >
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
-        <HandDisplay cards={cards} />
+        <HandDisplay cards={selectedCards} />
         {isNumber(handRank) && (
           <p aria-label="Hand rank">{handRankStringMap[handRank]}</p>
         )}
@@ -74,7 +74,10 @@ export const HandManager: React.FC<Props> = ({
           aria-label={`P${player} Card Selector`}
         >
           <button onClick={() => setIsOpen(false)}>Close 🅧</button>
-          <CardsSelector selectedCards={cards} onSelect={selectionHandler} />
+          <CardsSelector
+            selectedCards={selectedCards}
+            onSelect={selectionHandler}
+          />
         </div>
       </div>
     </>
