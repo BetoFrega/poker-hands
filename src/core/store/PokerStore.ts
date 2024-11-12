@@ -1,4 +1,6 @@
 import { produce } from "immer";
+import { Winner } from "../../components/PokerHandComparison/WinnerDisplay";
+import { getWinner } from "../actions/getWinner";
 import { HandRank, rankHand } from "../actions/rankHand";
 import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
 
@@ -18,6 +20,7 @@ type GameState = {
     player2: PlayerHand;
   };
   deck: DeckCard[];
+  winner: Winner | null;
 };
 const makeInitialState = (): GameState => ({
   deck: Object.values(CardSuitEnum)
@@ -31,6 +34,7 @@ const makeInitialState = (): GameState => ({
     player1: { cards: [], handRank: null },
     player2: { cards: [], handRank: null },
   },
+  winner: null,
 });
 /**
  * Returns a predicate function that can be used to find a card in the deck.
@@ -76,6 +80,10 @@ export class PokerStore {
       const hand = draft.hands[`player${player}`];
       hand.cards.push(card);
       hand.handRank = rankHand(hand.cards);
+      draft.winner = getWinner(
+        draft.hands.player1.handRank,
+        draft.hands.player2.handRank,
+      );
     });
     this.listeners.forEach((listener) => listener());
   };

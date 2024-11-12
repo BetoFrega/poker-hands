@@ -1,8 +1,10 @@
 import { afterEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useSyncExternalStore } from "react";
+import { Winner } from "../../components/PokerHandComparison/WinnerDisplay";
 import { HandRank } from "../actions/rankHand";
-import { CardSuitEnum, CardValueEnum } from "../types/Card";
+import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
+import { fullHouseQueensKings, straightFlushClubs } from "./fixtures";
 import { PokerStore } from "./PokerStore";
 
 describe(PokerStore, () => {
@@ -139,18 +141,11 @@ describe(PokerStore, () => {
     expect(result.current.deck[0].hand).toBe(1);
   });
   describe("Card Ranking", () => {
-    const cards = [
-      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Ace },
-      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Two },
-      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Three },
-      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Four },
-      { suit: CardSuitEnum.Clubs, value: CardValueEnum.Five },
-    ];
     it("should rank a hand", () => {
       const { result } = renderHook(() =>
         useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
       );
-      cards.forEach((card) => {
+      straightFlushClubs.forEach((card) => {
         act(() => {
           pokerStore.pickCard(1, card);
         });
@@ -163,7 +158,7 @@ describe(PokerStore, () => {
       const { result } = renderHook(() =>
         useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
       );
-      cards.forEach((card) => {
+      straightFlushClubs.forEach((card) => {
         act(() => {
           pokerStore.pickCard(1, card);
         });
@@ -172,9 +167,64 @@ describe(PokerStore, () => {
         HandRank.StraightFlush,
       );
       act(() => {
-        pokerStore.returnCard(1, cards[0]);
+        pokerStore.returnCard(1, straightFlushClubs[0]);
       });
       expect(result.current.hands.player1.handRank).toBe(null);
+    });
+    it("should define a winner", () => {
+      const { result } = renderHook(() =>
+        useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+      );
+      straightFlushClubs.forEach((card) => {
+        act(() => {
+          pokerStore.pickCard(1, card);
+        });
+      });
+      expect(result.current.hands.player1.handRank).toBe(
+        HandRank.StraightFlush,
+      );
+      fullHouseQueensKings.forEach((card) => {
+        act(() => {
+          pokerStore.pickCard(2, card);
+        });
+      });
+      expect(result.current.hands.player2.handRank).toBe(HandRank.FullHouse);
+      expect(result.current.winner).toBe(Winner.Player1);
+      act(() => {
+        pokerStore.returnCard(1, straightFlushClubs[0]);
+        pokerStore.pickCard(1, {
+          value: CardValueEnum.Ace,
+          suit: CardSuitEnum.Spades,
+        });
+      });
+      expect(result.current.hands.player1.handRank).toBe(HandRank.Straight);
+      expect(result.current.winner).toBe(Winner.Player2);
+    });
+    it("should define a tie", () => {
+      const { result } = renderHook(() =>
+        useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+      );
+      straightFlushClubs.forEach((card) => {
+        act(() => {
+          pokerStore.pickCard(1, card);
+        });
+      });
+      expect(result.current.hands.player1.handRank).toBe(
+        HandRank.StraightFlush,
+      );
+      const straightFlushSpades: Card[] = straightFlushClubs.map((card) => ({
+        value: card.value,
+        suit: CardSuitEnum.Spades,
+      }));
+      straightFlushSpades.forEach((card) => {
+        act(() => {
+          pokerStore.pickCard(2, card);
+        });
+      });
+      expect(result.current.hands.player2.handRank).toBe(
+        HandRank.StraightFlush,
+      );
+      expect(result.current.winner).toBe(Winner.TIE);
     });
   });
 });

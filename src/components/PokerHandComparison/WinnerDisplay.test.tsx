@@ -4,7 +4,7 @@ import { Winner, WinnerDisplay } from "./WinnerDisplay";
 
 describe("Winner display", () => {
   it("should not display when no winner is decided yet", () => {
-    render(<WinnerDisplay winner={false} />);
+    render(<WinnerDisplay winner={null} />);
     expect(
       screen.queryByLabelText("Hand comparison result"),
     ).not.toBeInTheDocument();

@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { getWinner } from "../../core/actions/getWinner";
 import { HandRank } from "../../core/actions/rankHand";
 import { HandManager } from "../HandManager/HandManager";
 import styles from "./PokerHandComparison.module.css";
@@ -26,21 +27,14 @@ function useRankChangeCallback(
   );
 }
 
-export const getWinner = (firstRank: number, secondRank: number): Winner =>
-  firstRank === secondRank
-    ? Winner.TIE
-    : firstRank > secondRank
-      ? Winner.Player1
-      : Winner.Player2;
-
 export const PokerHandComparison: React.FC = () => {
   const [ranks, setRanks] = useState<Hands>({});
   const onFirstRankChange = useRankChangeCallback(setRanks, "firstHand");
   const onSecondRankChange = useRankChangeCallback(setRanks, "secondHand");
-  const winner: false | Winner =
-    ranks.firstHand?.rank && ranks.secondHand?.rank
-      ? getWinner(ranks.firstHand?.rank, ranks.secondHand?.rank)
-      : false;
+  const winner: null | Winner = getWinner(
+    ranks.firstHand?.rank || null,
+    ranks.secondHand?.rank || null,
+  );
   return (
     <div className={styles.container}>
       <HandManager onRankChange={onFirstRankChange} player={1} />
