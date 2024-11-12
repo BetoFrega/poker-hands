@@ -56,7 +56,8 @@ class PokerStore {
   }
 
   pickCard = (player: 1 | 2, card: Card): void => {
-    if (this.getHand(player).length >= 5) return;
+    if (this.getPlayerHand(player).length >= 5) return;
+    if (this.getCardHand(card)) return;
     this.store = produce(this.store, (draft) => {
       const cardIndex = this.store.deck.findIndex(
         (deckCard) =>
@@ -69,7 +70,14 @@ class PokerStore {
     this.listeners.forEach((listener) => listener());
   };
 
-  private getHand(player: 1 | 2): Card[] {
+  private getCardHand(card: Card): 1 | 2 | undefined {
+    return this.store.deck.find(
+      (deckCard) =>
+        deckCard.card.suit === card.suit && deckCard.card.value === card.value,
+    )?.hand;
+  }
+
+  private getPlayerHand(player: 1 | 2): Card[] {
     return this.store.hands[`player${player}`];
   }
 
@@ -155,5 +163,29 @@ describe(PokerStore, () => {
       });
     });
     expect(result.current.hands.player1).toHaveLength(5);
+  });
+  it("should not allow a player to pick a card that was already picked", () => {
+    const { result } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    const card = result.current.deck[0].card;
+    // player 1 picks a card
+    act(() => {
+      pokerStore.pickCard(1, card);
+    });
+    // player 2 tries to pick the same card
+    act(() => {
+      pokerStore.pickCard(2, card);
+    });
+    // player 1's hand has 1 card
+    expect(result.current.hands.player1).toHaveLength(1);
+    // but player 2's hand still has no cards, because the card they tried to pick is not available
+    expect(result.current.hands.player2).toHaveLength(0);
+    // player 1 then tries to pick the same card again
+    act(() => {
+      pokerStore.pickCard(1, card);
+    });
+    // but their hand still only holds 1 card
+    expect(result.current.hands.player1).toHaveLength(1);
   });
 });
