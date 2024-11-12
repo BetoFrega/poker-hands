@@ -150,15 +150,25 @@ describe(PokerStore, () => {
       { suit: CardSuitEnum.Clubs, value: CardValueEnum.Four },
       { suit: CardSuitEnum.Clubs, value: CardValueEnum.Five },
     ];
-    cards.forEach((card) => {
-      act(() => {
-        pokerStore.pickCard(player, card);
+
+    beforeEach(() => {
+      cards.forEach((card) => {
+        act(() => {
+          pokerStore.pickCard(player, card);
+        });
       });
     });
+
     it("should rank a hand", () => {
       expect(result.current.hands.player1.handRank).toBe(
         HandRank.StraightFlush,
       );
+    });
+    it("should de-rank a hand with less than 5 cards", () => {
+      act(() => {
+        pokerStore.returnCard(1, cards[0]);
+      });
+      expect(result.current.hands.player1.handRank).toBe(null);
     });
   });
 });

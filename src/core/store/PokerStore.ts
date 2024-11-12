@@ -87,12 +87,12 @@ export class PokerStore {
     if (this.store.deck[cardIndex].hand !== player) return;
     this.store = produce(this.store, (draft) => {
       draft.deck[cardIndex].hand = undefined;
-      draft.hands[`player${player}`].cards = draft.hands[
-        `player${player}`
-      ].cards.filter(
+      const hand: PlayerHand = draft.hands[`player${player}`];
+      hand.cards = hand.cards.filter(
         (handCard) =>
           !(handCard.suit === card.suit && handCard.value === card.value),
       );
+      hand.handRank = null;
     });
     this.listeners.forEach((listener) => listener());
   };
