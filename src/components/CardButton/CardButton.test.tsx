@@ -8,7 +8,9 @@ describe("CardButton", () => {
     it("should render unselected", () => {
       const { container } = render(
         <CardButton
-          card={{ suit: CardSuitEnum.Hearts, value: CardValueEnum.Ace }}
+          deckCard={{
+            card: { suit: CardSuitEnum.Hearts, value: CardValueEnum.Ace },
+          }}
           onClick={() => {}}
         />,
       );
@@ -17,16 +19,18 @@ describe("CardButton", () => {
     it("should render selected", () => {
       const { container } = render(
         <CardButton
-          card={{ suit: CardSuitEnum.Hearts, value: CardValueEnum.Ace }}
+          deckCard={{
+            card: { suit: CardSuitEnum.Hearts, value: CardValueEnum.Ace },
+            hand: 1,
+          }}
           onClick={() => {}}
-          isSelected
         />,
       );
       expect(container).toMatchSnapshot();
     });
     it("should render empty", () => {
       const { container } = render(
-        <CardButton card={null} onClick={() => {}} />,
+        <CardButton deckCard={null} onClick={() => {}} />,
       );
       expect(container).toMatchSnapshot();
     });

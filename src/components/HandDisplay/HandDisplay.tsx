@@ -10,12 +10,12 @@ export const HandDisplay: React.FC<Props> = (props) => {
   return (
     <div className={styles.container} aria-label={"Selected hand"}>
       {props.cards.map((card) => (
-        <CardButton card={card} key={card.value + card.suit} />
+        <CardButton deckCard={{ card }} key={card.value + card.suit} />
       ))}
       {
         // fill with empty cards up to 5
         Array.from({ length: 5 - props.cards.length }).map((_, index) => (
-          <CardButton card={null} key={index} />
+          <CardButton deckCard={null} key={index} />
         ))
       }
     </div>

@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { DeckCard } from "../../core/store/PokerStore";
 import { Card, CardSuitEnum, CardValueEnum } from "../../core/types/Card";
 import { cx } from "../../helpers/cx";
 import styles from "./CardButton.module.css";
@@ -32,34 +33,34 @@ const valueNameMap: Record<CardValueEnum, string> = {
 };
 
 export function CardButton({
-  card,
-  isSelected,
+  deckCard,
   onClick,
 }: {
-  card: Card | null;
-  onClick?: (value: Card | null) => void;
-  isSelected?: boolean;
+  deckCard: DeckCard | null;
+  onClick?: (value?: Card) => void;
 }) {
   const onClickHandler: () => void = useCallback(() => {
-    onClick?.(card);
-  }, [onClick, card]);
-  const cardName = card
-    ? `${valueNameMap[card.value]} of ${suitNameMap[card.suit]}`
+    onClick?.(deckCard?.card);
+  }, [onClick, deckCard]);
+  const cardName = deckCard
+    ? `${valueNameMap[deckCard.card.value]} of ${suitNameMap[deckCard.card.suit]}`
     : "Empty card";
   return (
     <div
       className={cx([
         styles.CardButton,
-        isSelected && styles.selected,
-        card === null && styles.empty,
+        deckCard?.hand && styles.selected,
+        deckCard === null && styles.empty,
         onClick && styles.pointer,
       ])}
       onClick={onClickHandler}
       aria-label={cardName}
       role="button"
     >
-      <p className={styles.CardValue}>{card?.value}</p>
-      <p className={styles.CardSuit}>{card && suitIconMap[card.suit]}</p>
+      <p className={styles.CardValue}>{deckCard?.card.value}</p>
+      <p className={styles.CardSuit}>
+        {deckCard && suitIconMap[deckCard.card.suit]}
+      </p>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { HandRank, rankHand } from "../actions/rankHand";
 import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
 
 type StoreListener = () => void;
-type DeckCard = {
+export type DeckCard = {
   card: Card;
   /**
    * If a player has this card in their hand, this field will be set to player number.
