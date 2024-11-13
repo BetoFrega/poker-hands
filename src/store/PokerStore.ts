@@ -49,7 +49,7 @@ export class PokerStore {
   private listeners = new Set<StoreListener>();
   private store: GameState = makeInitialState();
 
-  private constructor() {}
+  constructor() {}
 
   public static getInstance(): PokerStore {
     if (!PokerStore.instance) {
