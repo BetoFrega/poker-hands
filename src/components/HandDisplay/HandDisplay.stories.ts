@@ -4,6 +4,7 @@ import { HandDisplay } from "./HandDisplay";
 
 const meta: Meta<typeof HandDisplay> = {
   component: HandDisplay,
+  tags: ["autodocs"],
 };
 export default meta;
 

@@ -1,18 +1,24 @@
 import { describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { CardSuitEnum, CardValueEnum } from "../core/types/Card";
+import { TestPokerStoreProvider } from "./testWrapper";
+
 import { usePokerStore } from "./usePokerStore";
 
 describe("usePokerStore", () => {
   it("should return the initial state", () => {
-    const { result } = renderHook(usePokerStore);
+    const { result } = renderHook(usePokerStore, {
+      wrapper: TestPokerStoreProvider,
+    });
     expect(result.current.state.deck.length).toBe(52);
     result.current.state.deck.forEach((deckCard) => {
       expect(deckCard.hand).toBeUndefined();
     });
   });
   it("should update the state when cards are played", () => {
-    const { result } = renderHook(usePokerStore);
+    const { result } = renderHook(usePokerStore, {
+      wrapper: TestPokerStoreProvider,
+    });
     const { pokerStore } = result.current;
     act(() => {
       pokerStore.pickCard(1, {

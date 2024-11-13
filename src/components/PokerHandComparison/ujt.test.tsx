@@ -1,6 +1,6 @@
-import { beforeEach, describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { PokerStore } from "../../store/PokerStore";
+import { TestPokerStoreProvider } from "../../store/testWrapper";
 import { PokerHandComparison } from "./PokerHandComparison";
 import "@testing-library/jest-dom";
 
@@ -42,12 +42,8 @@ const playHandAndCheckRank = (
 };
 
 describe("User Journey Tests", () => {
-  const pokerStore = PokerStore.getInstance();
-  beforeEach(() => {
-    pokerStore.reset();
-  });
   it("should perform the user journey happy path", () => {
-    render(<PokerHandComparison />);
+    render(<PokerHandComparison />, { wrapper: TestPokerStoreProvider });
     playHandAndCheckRank(
       1,
       [
@@ -75,7 +71,7 @@ describe("User Journey Tests", () => {
     );
   });
   it("should not allow one player to pick the same cards as the other", () => {
-    render(<PokerHandComparison />);
+    render(<PokerHandComparison />, { wrapper: TestPokerStoreProvider });
     const cardNames: string[] = [
       "Ace of Spades",
       "Two of Spades",
@@ -94,7 +90,7 @@ describe("User Journey Tests", () => {
     expect(getHandRank(2)).not.toBeInTheDocument();
   });
   it("should allow a player to return cards by clicking the selector cards", () => {
-    render(<PokerHandComparison />);
+    render(<PokerHandComparison />, { wrapper: TestPokerStoreProvider });
     const cardNames: string[] = [
       "Ace of Spades",
       "Two of Spades",

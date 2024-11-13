@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "@jest/globals";
+import { beforeEach, describe, expect, it } from "@jest/globals";
 import { act, renderHook } from "@testing-library/react";
 import { useSyncExternalStore } from "react";
 import { Winner } from "../components/PokerHandComparison/WinnerDisplay";
@@ -8,14 +8,9 @@ import { fullHouseQueensKings, straightFlushClubs } from "./fixtures";
 import { PokerStore } from "./PokerStore";
 
 describe(PokerStore, () => {
-  const pokerStore = PokerStore.getInstance();
-  afterEach(() => {
-    pokerStore.reset();
-  });
-  it("should be a singleton", () => {
-    const pokerStore1 = PokerStore.getInstance();
-    const pokerStore2 = PokerStore.getInstance();
-    expect(pokerStore1).toBe(pokerStore2);
+  let pokerStore: PokerStore;
+  beforeEach(() => {
+    pokerStore = new PokerStore();
   });
   it("should be able to reset its internal state", () => {
     pokerStore.pickCard(1, {

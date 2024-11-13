@@ -11,6 +11,8 @@ const deckCard = {
 };
 const meta: Meta<typeof CardButton> = {
   component: CardButton,
+  tags: ["autodocs"],
+
   args: {
     deckCard,
     onClick: fn(),
