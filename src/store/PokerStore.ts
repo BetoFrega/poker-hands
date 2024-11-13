@@ -106,6 +106,7 @@ export class PokerStore {
           !(handCard.suit === card.suit && handCard.value === card.value),
       );
       hand.handRank = null;
+      draft.winner = null;
     });
     this.listeners.forEach((listener) => listener());
   };
