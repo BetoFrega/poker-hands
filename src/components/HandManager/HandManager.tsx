@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { HandRank } from "../../core/actions/rankHand";
 import { cx } from "../../helpers/cx";
 import { usePokerStore } from "../../store/usePokerStore";
+import { valueNameMap } from "../CardButton/CardButton";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
 import styles from "./HandManager.module.css";
@@ -27,6 +28,7 @@ export const HandManager: React.FC<Props> = ({ invertedLayout, player }) => {
   const { state } = usePokerStore();
 
   const handRank = state.hands[`player${player}`].handRank;
+  const highestCard = state.hands[`player${player}`].highestCard;
   return (
     <>
       <div
@@ -38,8 +40,9 @@ export const HandManager: React.FC<Props> = ({ invertedLayout, player }) => {
       >
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
         <HandDisplay cards={state.hands[`player${player}`].cards} />
-        {handRank !== null && (
+        {handRank !== null && highestCard !== null && (
           <p aria-label="Hand rank" className={styles.handRank}>
+            {valueNameMap[highestCard?.value]}-high&nbsp;
             {handRankStringMap[handRank]}
           </p>
         )}

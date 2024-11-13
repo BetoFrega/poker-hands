@@ -16,7 +16,7 @@ const suitNameMap: Record<CardSuitEnum, string> = {
   [CardSuitEnum.Diamonds]: "Diamonds",
   [CardSuitEnum.Spades]: "Spades",
 };
-const valueNameMap: Record<CardValueEnum, string> = {
+export const valueNameMap: Record<CardValueEnum, string> = {
   [CardValueEnum.Two]: "Two",
   [CardValueEnum.Three]: "Three",
   [CardValueEnum.Four]: "Four",
