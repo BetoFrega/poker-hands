@@ -39,7 +39,9 @@ export const HandManager: React.FC<Props> = ({ invertedLayout, player }) => {
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
         <HandDisplay cards={state.hands[`player${player}`].cards} />
         {handRank !== null && (
-          <p aria-label="Hand rank">{handRankStringMap[handRank]}</p>
+          <p aria-label="Hand rank" className={styles.handRank}>
+            {handRankStringMap[handRank]}
+          </p>
         )}
         <button
           className={styles.button}
