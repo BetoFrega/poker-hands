@@ -58,13 +58,6 @@ export class PokerStore {
 
   constructor() {}
 
-  public static getInstance(): PokerStore {
-    if (!PokerStore.instance) {
-      PokerStore.instance = new PokerStore();
-    }
-    return PokerStore.instance;
-  }
-
   getListenerCount = () => this.listeners.size;
 
   subscribe = (listener: StoreListener) => {
