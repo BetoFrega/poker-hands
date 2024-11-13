@@ -34,7 +34,8 @@
 }
 
 .unavailable {
-  filter: brightness(0.5);
+  color: var(--disabled);
+  border-color: var(--disabled);
 }
 
 .selected {
