@@ -1,5 +1,5 @@
 import { describe, expect, it } from "@jest/globals";
-import { isStraight } from "./isStraight";
+import { isFiveHighStraight, isStraight } from "./isStraight";
 import { parseHandString } from "./parseHandString";
 
 describe("isStraight", () => {
@@ -39,5 +39,13 @@ describe("isStraight", () => {
     expect(isStraight(parseHandString("4c,5h,6c,7d,9h"))).toBe(false);
     expect(isStraight(parseHandString("5h,6c,7d,8h,Ts"))).toBe(false);
     expect(isStraight(parseHandString("6c,7d,8h,9s,Jc"))).toBe(false);
+  });
+});
+describe("isFiveHighStraight", () => {
+  it("should return true for a 5 high straight", () => {
+    expect(isFiveHighStraight(parseHandString("2h,3h,4c,5h,Ac"))).toBe(true);
+  });
+  it("should return false for a non 5 high straight", () => {
+    expect(isFiveHighStraight(parseHandString("2h,3h,4c,5h,6c"))).toBe(false);
   });
 });

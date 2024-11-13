@@ -1,6 +1,6 @@
 import { Card, CardValueEnum } from "../types/Card";
 
-export const getValueOrder = (isKingPresent: boolean) => {
+export const getValueOrder = (isBikeStraight: boolean) => {
   const valueOrder: string[] = [
     "2",
     "3",
@@ -15,19 +15,30 @@ export const getValueOrder = (isKingPresent: boolean) => {
     "Q",
     "K",
   ];
-  if (isKingPresent) {
-    valueOrder.push("A");
-  } else {
+  if (isBikeStraight) {
     valueOrder.unshift("A");
+  } else {
+    valueOrder.push("A");
   }
   return valueOrder;
 };
+
+export const isFiveHighStraight = (cards: Card[]): boolean =>
+  cards.every((card) =>
+    [
+      CardValueEnum.Ace,
+      CardValueEnum.Two,
+      CardValueEnum.Three,
+      CardValueEnum.Four,
+      CardValueEnum.Five,
+    ].includes(card.value),
+  );
+
 /**
  * Determines if the given cards form a sequence of values.
  */
 export const isStraight = (cards: Card[]) => {
-  const isKingPresent = cards.some((card) => card.value === CardValueEnum.King);
-  const valueOrder = getValueOrder(isKingPresent);
+  const valueOrder = getValueOrder(isFiveHighStraight(cards));
   const cardValues = cards.map((card) => card.value);
   const sortedValues = cardValues.sort(
     (a, b) => valueOrder.indexOf(a) - valueOrder.indexOf(b),
