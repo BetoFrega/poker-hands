@@ -4,7 +4,11 @@ import { useSyncExternalStore } from "react";
 import { Winner } from "../components/PokerHandComparison/WinnerDisplay";
 import { HandRank } from "../core/actions/rankHand";
 import { Card, CardSuitEnum, CardValueEnum } from "../core/types/Card";
-import { fullHouseQueensKings, straightFlushHighFive } from "./fixtures";
+import {
+  fullHouseQueensKings,
+  straightFlushAceHigh,
+  straightFlushFiveHigh,
+} from "./fixtures";
 import { PokerStore } from "./PokerStore";
 
 describe(PokerStore, () => {
@@ -140,7 +144,7 @@ describe(PokerStore, () => {
       const { result } = renderHook(() =>
         useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
       );
-      straightFlushHighFive.forEach((card) => {
+      straightFlushFiveHigh.forEach((card) => {
         act(() => {
           pokerStore.pickCard(1, card);
         });
@@ -153,7 +157,7 @@ describe(PokerStore, () => {
       const { result } = renderHook(() =>
         useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
       );
-      straightFlushHighFive.forEach((card) => {
+      straightFlushFiveHigh.forEach((card) => {
         act(() => {
           pokerStore.pickCard(1, card);
         });
@@ -162,7 +166,7 @@ describe(PokerStore, () => {
         HandRank.StraightFlush,
       );
       act(() => {
-        pokerStore.returnCard(1, straightFlushHighFive[0]);
+        pokerStore.returnCard(1, straightFlushFiveHigh[0]);
       });
       expect(result.current.hands.player1.handRank).toBe(null);
     });
@@ -170,7 +174,7 @@ describe(PokerStore, () => {
       const { result } = renderHook(() =>
         useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
       );
-      straightFlushHighFive.forEach((card) => {
+      straightFlushFiveHigh.forEach((card) => {
         act(() => {
           pokerStore.pickCard(1, card);
         });
@@ -186,7 +190,7 @@ describe(PokerStore, () => {
       expect(result.current.hands.player2.handRank).toBe(HandRank.FullHouse);
       expect(result.current.winner).toBe(Winner.Player1);
       act(() => {
-        pokerStore.returnCard(1, straightFlushHighFive[0]);
+        pokerStore.returnCard(1, straightFlushFiveHigh[0]);
         pokerStore.pickCard(1, {
           value: CardValueEnum.Ace,
           suit: CardSuitEnum.Spades,
@@ -199,7 +203,7 @@ describe(PokerStore, () => {
       const { result } = renderHook(() =>
         useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
       );
-      straightFlushHighFive.forEach((card) => {
+      straightFlushFiveHigh.forEach((card) => {
         act(() => {
           pokerStore.pickCard(1, card);
         });
@@ -207,7 +211,7 @@ describe(PokerStore, () => {
       expect(result.current.hands.player1.handRank).toBe(
         HandRank.StraightFlush,
       );
-      const straightFlushSpades: Card[] = straightFlushHighFive.map((card) => ({
+      const straightFlushSpades: Card[] = straightFlushFiveHigh.map((card) => ({
         value: card.value,
         suit: CardSuitEnum.Spades,
       }));
@@ -226,7 +230,7 @@ describe(PokerStore, () => {
     const { result } = renderHook(() =>
       useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
     );
-    straightFlushHighFive.forEach((card) => {
+    straightFlushFiveHigh.forEach((card) => {
       act(() => {
         pokerStore.pickCard(1, card);
       });
@@ -244,5 +248,29 @@ describe(PokerStore, () => {
       value: CardValueEnum.King,
       suit: CardSuitEnum.Clubs,
     });
+  });
+  it("should define the winner by the highest card in a Tie", () => {
+    const { result } = renderHook(() =>
+      useSyncExternalStore(pokerStore.subscribe, pokerStore.getSnapshot),
+    );
+    straightFlushFiveHigh.forEach((card) => {
+      act(() => {
+        pokerStore.pickCard(1, card);
+      });
+    });
+    straightFlushAceHigh.forEach((card) => {
+      act(() => {
+        pokerStore.pickCard(2, card);
+      });
+    });
+    expect(result.current.hands.player1.highestCard).toEqual({
+      value: CardValueEnum.Five,
+      suit: CardSuitEnum.Clubs,
+    });
+    expect(result.current.hands.player2.highestCard).toEqual({
+      value: CardValueEnum.Ace,
+      suit: CardSuitEnum.Spades,
+    });
+    expect(result.current.winner).toBe(Winner.Player2);
   });
 });

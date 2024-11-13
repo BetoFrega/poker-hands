@@ -1,14 +1,27 @@
 import { Winner } from "../../components/PokerHandComparison/WinnerDisplay";
-import { HandRank } from "./rankHand";
+import { PlayerHand } from "../../store/PokerStore";
+import { getValueOrder } from "./isStraight";
 
 export const getWinner = (
-  firstRank: HandRank | null,
-  secondRank: HandRank | null,
+  firstHand: PlayerHand,
+  secondhand: PlayerHand,
 ): Winner | null => {
-  if (firstRank == null || secondRank == null) return null;
-  return firstRank === secondRank
-    ? Winner.TIE
-    : firstRank > secondRank
-      ? Winner.Player1
-      : Winner.Player2;
+  if (!firstHand.handRank || !secondhand.handRank) return null;
+  if (firstHand.handRank > secondhand.handRank) return Winner.Player1;
+  if (firstHand.handRank < secondhand.handRank) return Winner.Player2;
+  if (firstHand.handRank === secondhand.handRank) {
+    if (firstHand.highestCard && secondhand.highestCard) {
+      const valueOrder = getValueOrder(false);
+      const firstHandIndex = valueOrder.indexOf(firstHand.highestCard.value);
+      const secondHandIndex = valueOrder.indexOf(secondhand.highestCard.value);
+      if (firstHandIndex > secondHandIndex) {
+        return Winner.Player1;
+      }
+      if (firstHandIndex < secondHandIndex) {
+        return Winner.Player2;
+      }
+      return Winner.TIE;
+    }
+  }
+  return null;
 };

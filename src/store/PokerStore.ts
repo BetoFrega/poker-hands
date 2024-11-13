@@ -14,7 +14,7 @@ export type DeckCard = {
    */
   hand?: 1 | 2;
 };
-type PlayerHand = {
+export type PlayerHand = {
   cards: Card[];
   handRank: HandRank | null;
   highestCard: Card | null;
@@ -87,10 +87,7 @@ export class PokerStore {
       hand.cards.push(card);
       hand.handRank = rankHand(hand.cards);
       hand.highestCard = highestCard(hand.cards);
-      draft.winner = getWinner(
-        draft.hands.player1.handRank,
-        draft.hands.player2.handRank,
-      );
+      draft.winner = getWinner(draft.hands.player1, draft.hands.player2);
     });
     this.listeners.forEach((listener) => listener());
   };

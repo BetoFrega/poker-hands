@@ -13,6 +13,11 @@ describe("highestCard", () => {
     const result = highestCard(hand);
     expect(result).toEqual({ value: "5", suit: "h" });
   });
+  it("should consider an Ace the Highest card for an Ace-high Straight", () => {
+    const hand = parseHandString("Th,Jh,Qh,Kh,Ah");
+    const result = highestCard(hand);
+    expect(result).toEqual({ value: "A", suit: "h" });
+  });
   it("should return the Ace as the highest card when not a Five-high straight", () => {
     const hand = parseHandString("2h,2h,4h,4h,Ah");
     const result = highestCard(hand);
