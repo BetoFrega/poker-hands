@@ -1,10 +1,7 @@
 # Poker Hands
 
-**Poker Hands** is a web application can take as input two five-card poker hands, evaluate which of the two is the
+**Poker Hands** is a web application that can take as input two five-card poker hands, evaluate which of the two is the
 higher hand, and return that highest hand as output.
-
-1. The application allows a user to assemble two poker hands, and compare them to each other.
-2. It then marks which of the two poker hands is the winning hand.
 
 ## Features
 
