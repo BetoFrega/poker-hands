@@ -1,23 +1,12 @@
 import React, { useState } from "react";
-import { HandRank } from "../../core/actions/rankHand";
 import { cx } from "../../helpers/cx";
 import { usePokerStore } from "../../store/usePokerStore";
 import { valueNameMap } from "../CardButton/CardButton";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
 import styles from "./HandManager.module.css";
+import { handRankStringMap } from "./handRankStringMap";
 
-const handRankStringMap = {
-  [HandRank.HighCard]: "High card",
-  [HandRank.Pair]: "One pair",
-  [HandRank.TwoPair]: "Two pair",
-  [HandRank.ThreeOfAKind]: "Three of a kind",
-  [HandRank.Straight]: "Straight",
-  [HandRank.Flush]: "Flush",
-  [HandRank.FullHouse]: "Full house",
-  [HandRank.FourOfAKind]: "Four of a kind",
-  [HandRank.StraightFlush]: "Straight flush",
-};
 type Props = {
   invertedLayout?: boolean;
   player: 1 | 2;

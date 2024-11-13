@@ -1,9 +1,10 @@
 import { produce } from "immer";
-import { Winner } from "../components/PokerHandComparison/WinnerDisplay";
 import { getWinner } from "../core/actions/getWinner";
 import { highestCard } from "../core/actions/highestCard";
-import { HandRank, rankHand } from "../core/actions/rankHand";
+import { rankHand } from "../core/actions/rankHand";
 import { Card, CardSuitEnum, CardValueEnum } from "../core/types/Card";
+import { HandRank } from "../core/types/HandRank";
+import { Winner } from "../core/types/Winner";
 
 type StoreListener = () => void;
 export type DeckCard = {

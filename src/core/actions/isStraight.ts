@@ -1,6 +1,12 @@
 import { Card, CardValueEnum } from "../types/Card";
 
-export const getValueOrder = (isBikeStraight: boolean) => {
+export const getValueOrder = (
+  /**
+   * A Bicycle Straight or Wheel Straight is a straight where the Ace is the lowest card.
+   * It is the only situation where the Ace is not the highest card.
+   */
+  isBikeStraight: boolean,
+) => {
   const valueOrder: string[] = [
     "2",
     "3",

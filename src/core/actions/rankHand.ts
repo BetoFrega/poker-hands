@@ -1,19 +1,8 @@
 import { Card } from "../types/Card";
+import { HandRank } from "../types/HandRank";
 import { countByValue } from "./countByValue";
 import { isFlush } from "./isFlush";
 import { isStraight } from "./isStraight";
-
-export enum HandRank {
-  HighCard,
-  Pair,
-  TwoPair,
-  ThreeOfAKind,
-  Straight,
-  Flush,
-  FullHouse,
-  FourOfAKind,
-  StraightFlush,
-}
 
 export const rankHand = (cards: Card[]): HandRank | null => {
   if (cards.length !== 5) return null;

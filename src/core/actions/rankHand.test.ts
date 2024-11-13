@@ -1,6 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
+import { HandRank } from "../types/HandRank";
 import { parseHandString } from "./parseHandString";
-import { HandRank, rankHand } from "./rankHand";
+import { rankHand } from "./rankHand";
 
 describe("rankHand", () => {
   it("should rank a straight flush", () => {

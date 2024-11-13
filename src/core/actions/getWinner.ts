@@ -1,5 +1,5 @@
-import { Winner } from "../../components/PokerHandComparison/WinnerDisplay";
 import { PlayerHand } from "../../store/PokerStore";
+import { Winner } from "../types/Winner";
 import { getValueOrder } from "./isStraight";
 
 export const getWinner = (

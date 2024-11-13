@@ -1,11 +1,6 @@
 import React from "react";
+import { Winner } from "../../core/types/Winner";
 import styles from "./PokerHandComparison.module.css";
-
-export enum Winner {
-  TIE,
-  Player1,
-  Player2,
-}
 
 export function WinnerDisplay(props: { winner: null | Winner }) {
   return (
