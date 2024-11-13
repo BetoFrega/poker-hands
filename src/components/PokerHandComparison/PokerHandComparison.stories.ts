@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { pokerStoreDecorator } from "../../store/PokerStoreDecorator";
 import { PokerHandComparison } from "./PokerHandComparison";
-import { pokerStoreDecorator } from "./PokerStoreDecorator";
 
 const meta: Meta<typeof PokerHandComparison> = {
   component: PokerHandComparison,

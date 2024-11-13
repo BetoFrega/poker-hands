@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { pokerStoreDecorator } from "../PokerHandComparison/PokerStoreDecorator";
+import { pokerStoreDecorator } from "../../store/PokerStoreDecorator";
 import { CardsSelector } from "./CardsSelector";
 
 const meta: Meta<typeof CardsSelector> = {

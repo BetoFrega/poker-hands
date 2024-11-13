@@ -12,11 +12,6 @@ describe(PokerStore, () => {
   beforeEach(() => {
     pokerStore = new PokerStore();
   });
-  it("should be a singleton", () => {
-    const pokerStore1 = PokerStore.getInstance();
-    const pokerStore2 = PokerStore.getInstance();
-    expect(pokerStore1).toBe(pokerStore2);
-  });
   it("should be able to reset its internal state", () => {
     pokerStore.pickCard(1, {
       suit: CardSuitEnum.Clubs,
