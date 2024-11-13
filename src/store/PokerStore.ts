@@ -94,10 +94,8 @@ export class PokerStore {
   };
 
   reset = () => {
-    this.listeners.forEach((listener) => {
-      this.listeners.delete(listener);
-    });
     this.store = makeInitialState();
+    this.listeners.forEach((listener) => listener());
   };
 
   returnCard = (player: 1 | 2, card: Card) => {
