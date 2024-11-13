@@ -6,6 +6,15 @@ higher hand, and return that highest hand as output.
 1. The application allows a user to assemble two poker hands, and compare them to each other.
 2. It then marks which of the two poker hands is the winning hand.
 
+## Features
+
+1. Assemble two poker hands by selecting cards from a deck.
+2. Compare the two hands and see which one is the winning hand.
+3. Ties are resolved by comparing the highest card in each hand.
+
+**Tip:** Both a light and dark version of the application are available.
+Try switching your browser's theme to see the app change!
+
 ## Getting Started
 
 To run the development server:
