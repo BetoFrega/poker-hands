@@ -52,7 +52,6 @@ const getCardPredicate =
     deckCard.card.suit === card.suit && deckCard.card.value === card.value;
 
 export class PokerStore {
-  private static instance: PokerStore;
   private listeners = new Set<StoreListener>();
   private store: GameState = makeInitialState();
 
