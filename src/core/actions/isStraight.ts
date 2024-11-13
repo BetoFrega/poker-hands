@@ -23,8 +23,9 @@ export const getValueOrder = (isBikeStraight: boolean) => {
   return valueOrder;
 };
 
-export const isFiveHighStraight = (cards: Card[]): boolean =>
-  cards.every((card) =>
+export const isFiveHighStraight = (cards: Card[]): boolean => {
+  if (cards.length < 5) return false;
+  return cards.every((card) =>
     [
       CardValueEnum.Ace,
       CardValueEnum.Two,
@@ -33,6 +34,7 @@ export const isFiveHighStraight = (cards: Card[]): boolean =>
       CardValueEnum.Five,
     ].includes(card.value),
   );
+};
 
 /**
  * Determines if the given cards form a sequence of values.
