@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { pokerStoreDecorator } from "../../store/PokerStoreDecorator";
+import { pokerStoreDecorator } from "../../store/pokerStoreDecorator";
 import { HandManager } from "./HandManager";
 
 const meta: Meta<typeof HandManager> = {

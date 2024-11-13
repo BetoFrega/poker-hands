@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import { Winner } from "../components/PokerHandComparison/WinnerDisplay";
 import { getWinner } from "../core/actions/getWinner";
+import { highestCard } from "../core/actions/highestCard";
 import { HandRank, rankHand } from "../core/actions/rankHand";
 import { Card, CardSuitEnum, CardValueEnum } from "../core/types/Card";
 
@@ -13,7 +14,11 @@ export type DeckCard = {
    */
   hand?: 1 | 2;
 };
-type PlayerHand = { cards: Card[]; handRank: HandRank | null };
+export type PlayerHand = {
+  cards: Card[];
+  handRank: HandRank | null;
+  highestCard: Card | null;
+};
 type GameState = {
   hands: {
     player1: PlayerHand;
@@ -24,15 +29,16 @@ type GameState = {
 };
 const makeInitialState = (): GameState => ({
   deck: Object.values(CardSuitEnum)
-    .map((suit) => {
-      return Object.values(CardValueEnum).map((value) => {
-        return { card: { suit, value }, hand: undefined };
-      });
-    })
+    .map((suit) =>
+      Object.values(CardValueEnum).map((value) => ({
+        card: { suit, value },
+        hand: undefined,
+      })),
+    )
     .flat(),
   hands: {
-    player1: { cards: [], handRank: null },
-    player2: { cards: [], handRank: null },
+    player1: { cards: [], handRank: null, highestCard: null },
+    player2: { cards: [], handRank: null, highestCard: null },
   },
   winner: null,
 });
@@ -80,10 +86,8 @@ export class PokerStore {
       const hand = draft.hands[`player${player}`];
       hand.cards.push(card);
       hand.handRank = rankHand(hand.cards);
-      draft.winner = getWinner(
-        draft.hands.player1.handRank,
-        draft.hands.player2.handRank,
-      );
+      hand.highestCard = highestCard(hand.cards);
+      draft.winner = getWinner(draft.hands.player1, draft.hands.player2);
     });
     this.listeners.forEach((listener) => listener());
   };
@@ -106,6 +110,7 @@ export class PokerStore {
           !(handCard.suit === card.suit && handCard.value === card.value),
       );
       hand.handRank = null;
+      hand.highestCard = highestCard(hand.cards);
       draft.winner = null;
     });
     this.listeners.forEach((listener) => listener());

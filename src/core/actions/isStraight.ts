@@ -25,15 +25,14 @@ export const getValueOrder = (isBikeStraight: boolean) => {
 
 export const isFiveHighStraight = (cards: Card[]): boolean => {
   if (cards.length < 5) return false;
-  return cards.every((card) =>
-    [
-      CardValueEnum.Ace,
-      CardValueEnum.Two,
-      CardValueEnum.Three,
-      CardValueEnum.Four,
-      CardValueEnum.Five,
-    ].includes(card.value),
-  );
+  const handValues = cards.map((card) => card.value);
+  return [
+    CardValueEnum.Ace,
+    CardValueEnum.Two,
+    CardValueEnum.Three,
+    CardValueEnum.Four,
+    CardValueEnum.Five,
+  ].every((requiredValue) => handValues.includes(requiredValue));
 };
 
 /**
