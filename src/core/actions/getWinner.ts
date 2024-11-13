@@ -6,7 +6,7 @@ export const getWinner = (
   firstHand: PlayerHand,
   secondhand: PlayerHand,
 ): Winner | null => {
-  if (!firstHand.handRank || !secondhand.handRank) return null;
+  if (firstHand.handRank === null || secondhand.handRank === null) return null;
   if (firstHand.handRank > secondhand.handRank) return Winner.Player1;
   if (firstHand.handRank < secondhand.handRank) return Winner.Player2;
   if (firstHand.handRank === secondhand.handRank) {
