@@ -13,4 +13,8 @@ describe("highestCard", () => {
     const result = highestCard(hand);
     expect(result).toEqual({ value: "5", suit: "h" });
   });
+  it("should return null when an empty array is provided", () => {
+    const result = highestCard([]);
+    expect(result).toBeNull();
+  });
 });
