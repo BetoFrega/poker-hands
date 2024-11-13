@@ -76,13 +76,9 @@ export class PokerStore {
 
   pickCard = (player: 1 | 2, card: Card): void => {
     if (this.store.hands[`player${player}`].cards.length >= 5) return;
-    if (this.store.deck.find(getCardPredicate(card))?.hand) return;
+    const cardIndex = this.store.deck.findIndex(getCardPredicate(card));
+    if (this.store.deck[cardIndex]?.hand) return;
     this.store = produce(this.store, (draft) => {
-      const cardIndex = this.store.deck.findIndex(
-        (deckCard) =>
-          deckCard.card.suit === card.suit &&
-          deckCard.card.value === card.value,
-      );
       draft.deck[cardIndex].hand = player;
       const hand = draft.hands[`player${player}`];
       hand.cards.push(card);
