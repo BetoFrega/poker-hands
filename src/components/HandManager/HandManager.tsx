@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cx } from "../../helpers/cx";
+import { PlayerHand } from "../../store/PokerStore";
 import { usePokerStore } from "../../store/usePokerStore";
 import { valueNameMap } from "../CardButton/CardButton";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
@@ -13,11 +14,16 @@ type Props = {
 };
 export const HandManager: React.FC<Props> = ({ invertedLayout, player }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const { state } = usePokerStore();
-
-  const handRank = state.hands[`player${player}`].handRank;
-  const highestCard = state.hands[`player${player}`].highestCard;
+  const hand: PlayerHand = state.hands[`player${player}`];
+  const handRank = hand.handRank;
+  const highestCard = hand.highestCard;
+  const cards = hand.cards;
+  useEffect(() => {
+    if (cards.length === 5) {
+      setIsOpen(false);
+    }
+  }, [cards]);
   return (
     <>
       <div
@@ -28,7 +34,7 @@ export const HandManager: React.FC<Props> = ({ invertedLayout, player }) => {
         aria-label={`Player ${player} section`}
       >
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
-        <HandDisplay cards={state.hands[`player${player}`].cards} />
+        <HandDisplay cards={hand.cards} />
         {handRank !== null && highestCard !== null && (
           <p aria-label="Hand rank" className={styles.handRank}>
             {valueNameMap[highestCard?.value]}-high&nbsp;
