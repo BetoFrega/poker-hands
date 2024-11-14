@@ -10,6 +10,7 @@ export const usePokerStore = () => {
   const state = useSyncExternalStore(
     pokerStore.subscribe,
     pokerStore.getSnapshot,
+    pokerStore.getSnapshot,
   );
   return { pokerStore, state };
 };
