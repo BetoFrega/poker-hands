@@ -30,6 +30,8 @@ npm run storybook
 
 Open [http://localhost:6006](http://localhost:6006) to see the result.
 
+A live version of the application can also be found [here](https://poker.frega.dev/).
+
 # Design decisions
 
 ## Next.js
