@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
-import { DeckCard } from "../../store/PokerStore";
-import { usePokerStore } from "../../store/usePokerStore";
+import { useCallback } from "react";
+import { DeckCard } from "@/store/PokerStore";
+import { usePokerStore } from "@/store/usePokerStore";
 import { CardButton } from "../CardButton/CardButton";
 import styles from "./CardsSelector.module.css";
 
@@ -23,14 +23,18 @@ export const CardsSelector = ({ player }: Props) => {
   );
   return (
     <div className={`${styles.Container}`}>
-      {state.deck.map((deckCard) => (
-        <CardButton
-          deckCard={deckCard}
-          onClick={clickHandler}
-          player={player}
-          key={deckCard.card.value + deckCard.card.suit}
-        />
-      ))}
+      {state.deck.map((deckCard) =>
+        deckCard.hand === player ? (
+          <div key={deckCard.card.value + deckCard.card.suit} />
+        ) : (
+          <CardButton
+            deckCard={deckCard}
+            onClick={clickHandler}
+            player={player}
+            key={deckCard.card.value + deckCard.card.suit}
+          />
+        ),
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { cx } from "../../helpers/cx";
-import { usePokerStore } from "../../store/usePokerStore";
+import { cx } from "@/helpers/cx.ts";
+import { usePokerStore } from "@/store/usePokerStore.ts";
 import { valueNameMap } from "../CardButton/CardButton";
 import { CardsSelector } from "../CardsSelector/CardsSelector";
 import { HandDisplay } from "../HandDisplay/HandDisplay";
@@ -30,7 +30,7 @@ export const HandManager: React.FC<Props> = ({ invertedLayout, player }) => {
         aria-label={`Player ${player} section`}
       >
         <p>{invertedLayout ? "Second Player" : "First Player"}</p>
-        <HandDisplay cards={cards} />
+        <HandDisplay cards={cards} player={player} />
         {handRank !== null && highestCard !== null && (
           <p aria-label="Hand rank" className={styles.handRank}>
             {valueNameMap[highestCard?.value]}-high&nbsp;

@@ -89,7 +89,7 @@ describe("User Journey Tests", () => {
     );
     expect(getHandRank(2)).not.toBeInTheDocument();
   });
-  it("should allow a player to return cards by clicking the selector cards", () => {
+  it("should allow a player to return cards by clicking the hand display cards", () => {
     render(<PokerHandComparison />, { wrapper: TestPokerStoreProvider });
     const cardNames: string[] = [
       "Ace of Spades",
@@ -100,10 +100,14 @@ describe("User Journey Tests", () => {
     ];
     playHandAndCheckRank(1, cardNames, "Straight flush");
     const player1_selectedHand = getSelectedHand(1);
-    selectCards(1, ["Ace of Spades"]);
-    expect(
-      within(player1_selectedHand).queryByLabelText("Ace of Spades"),
-    ).not.toBeInTheDocument();
+
+    const getAceInHand = () =>
+      within(player1_selectedHand).queryByLabelText("Ace of Spades");
+
+    expect(getAceInHand()).toBeInTheDocument();
+    const aceInHand = getAceInHand();
+    fireEvent.click(aceInHand!);
+    expect(getAceInHand()).not.toBeInTheDocument();
     expect(getHandRank(1)).not.toBeInTheDocument();
   });
 });
