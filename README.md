@@ -34,11 +34,12 @@ A live version of the application can also be found [here](https://poker.frega.d
 
 # Design decisions
 
-## Next.js
+## Vite
 
-Even though this is a simple frontend application that doesn't need server-side rendering or complex routing, Next still
-makes things easier by providing a lot of useful features out of the box, such as automatic code splitting, hot module
-replacement, and CSS Modules support.
+Initially, I chose Next.js for this project. However, it introduced unnecessary complexity and resulted in slow build
+times, especially when using Storybook. Given that Storybook has an excellent Vite plugin that significantly improves
+speed, I decided to migrate the entire application to Vite. Additionally, since Next.js does not support Vite, I am
+considering eventually using Remix Vite.
 
 ## Storybook
 
