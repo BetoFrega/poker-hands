@@ -37,8 +37,3 @@
   color: var(--disabled);
   border-color: var(--disabled);
 }
-
-.selected {
-  background: var(--foreground);
-  color: var(--background);
-}

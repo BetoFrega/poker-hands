@@ -1,19 +1,23 @@
 import React from "react";
-import { Card } from "../../core/types/Card";
+import { Card } from "@/core/types/Card.ts";
 import { CardButton } from "../CardButton/CardButton";
 import styles from "./HandDisplay.module.css";
+import { usePokerStore } from "@/store/usePokerStore.ts";
 
 type Props = {
   cards: Card[];
+  player: 1 | 2;
 };
 export const HandDisplay: React.FC<Props> = (props) => {
+  const { pokerStore } = usePokerStore();
   return (
     <div className={styles.container} aria-label={"Selected hand"}>
       {props.cards.map((card) => (
         <CardButton
           deckCard={{ card }}
           key={card.value + card.suit}
-          player={null}
+          player={props.player}
+          onClick={() => pokerStore.returnCard(props.player, card)}
         />
       ))}
       {

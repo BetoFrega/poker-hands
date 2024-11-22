@@ -3,6 +3,7 @@ import { CardSuitEnum, CardValueEnum } from "@/core/types/Card.ts";
 import { cx } from "@/helpers/cx.ts";
 import { DeckCard } from "@/store/PokerStore.ts";
 import styles from "./CardButton.module.css";
+import { motion } from "motion/react";
 
 const suitIconMap: Record<CardSuitEnum, string> = {
   [CardSuitEnum.Hearts]: "♥",
@@ -32,12 +33,9 @@ export const valueNameMap: Record<CardValueEnum, string> = {
   [CardValueEnum.Ace]: "Ace",
 };
 
-function getCardStyle(deckCard: DeckCard | null, player: 1 | 2 | null) {
+function getCardStyle(deckCard: DeckCard | null) {
   if (!deckCard) return styles.empty;
-  if (deckCard.hand) {
-    if (deckCard.hand === player) return styles.selected;
-    return styles.unavailable;
-  }
+  if (deckCard.hand) return styles.unavailable;
 }
 
 export function CardButton({
@@ -55,18 +53,22 @@ export function CardButton({
   const cardName = deckCard
     ? `${valueNameMap[deckCard.card.value]} of ${suitNameMap[deckCard.card.suit]}`
     : "Empty card";
-  const cardStyle = getCardStyle(deckCard, player || null);
+  const cardStyle = getCardStyle(deckCard);
+  const layoutId = deckCard
+    ? `p${player}-${deckCard.card.value + deckCard.card.suit}`
+    : undefined;
   return (
-    <div
+    <motion.div
       className={cx([styles.CardButton, cardStyle, onClick && styles.pointer])}
       onClick={onClickHandler}
       aria-label={cardName}
       role="button"
+      layoutId={layoutId}
     >
       <p className={styles.CardValue}>{deckCard?.card.value}</p>
       <p className={styles.CardSuit}>
         {deckCard && suitIconMap[deckCard.card.suit]}
       </p>
-    </div>
+    </motion.div>
   );
 }
