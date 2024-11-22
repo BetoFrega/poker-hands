@@ -1,5 +1,5 @@
-import { describe, expect, it } from "@jest/globals";
-import { PlayerHand } from "../../store/PokerStore";
+import { describe, expect, it } from "vitest";
+import { PlayerHand } from "@/store/PokerStore.ts";
 import { CardSuitEnum, CardValueEnum } from "../types/Card";
 import { HandRank } from "../types/HandRank";
 import { Winner } from "../types/Winner";

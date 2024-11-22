@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { CardSuitEnum, CardValueEnum } from "../../core/types/Card";
-import { cx } from "../../helpers/cx";
-import { DeckCard } from "../../store/PokerStore";
+import { CardSuitEnum, CardValueEnum } from "@/core/types/Card.ts";
+import { cx } from "@/helpers/cx.ts";
+import { DeckCard } from "@/store/PokerStore.ts";
 import styles from "./CardButton.module.css";
 
 const suitIconMap: Record<CardSuitEnum, string> = {
@@ -47,7 +47,7 @@ export function CardButton({
 }: {
   deckCard: DeckCard | null;
   onClick?: (value: DeckCard | null) => void;
-  player: 1 | 2 | null;
+  player?: 1 | 2 | null;
 }) {
   const onClickHandler: () => void = useCallback(() => {
     onClick?.(deckCard);
@@ -55,7 +55,7 @@ export function CardButton({
   const cardName = deckCard
     ? `${valueNameMap[deckCard.card.value]} of ${suitNameMap[deckCard.card.suit]}`
     : "Empty card";
-  const cardStyle = getCardStyle(deckCard, player);
+  const cardStyle = getCardStyle(deckCard, player || null);
   return (
     <div
       className={cx([styles.CardButton, cardStyle, onClick && styles.pointer])}

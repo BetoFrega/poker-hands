@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "@jest/globals";
+import { beforeEach, describe, expect, it } from "vitest";
 import { act, renderHook } from "@testing-library/react";
 import { useSyncExternalStore } from "react";
 import { Card, CardSuitEnum, CardValueEnum } from "../core/types/Card";

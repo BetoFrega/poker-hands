@@ -1,4 +1,4 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { Card, CardSuitEnum, CardValueEnum } from "../types/Card";
 import { parseHandString } from "./parseHandString";
 

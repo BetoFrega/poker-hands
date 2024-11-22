@@ -1,4 +1,4 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { HandRank } from "../types/HandRank";
 import { parseHandString } from "./parseHandString";
 import { rankHand } from "./rankHand";

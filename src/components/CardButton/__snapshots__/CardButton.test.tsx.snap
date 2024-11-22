@@ -1,4 +1,63 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CardButton > baseline > should render empty 1`] = `
+<div>
+  <div
+    aria-label="Empty card"
+    class="_CardButton_b628da _empty_b628da _pointer_b628da"
+    role="button"
+  >
+    <p
+      class="_CardValue_b628da"
+    />
+    <p
+      class="_CardSuit_b628da"
+    />
+  </div>
+</div>
+`;
+
+exports[`CardButton > baseline > should render selected 1`] = `
+<div>
+  <div
+    aria-label="Ace of Hearts"
+    class="_CardButton_b628da _unavailable_b628da _pointer_b628da"
+    role="button"
+  >
+    <p
+      class="_CardValue_b628da"
+    >
+      A
+    </p>
+    <p
+      class="_CardSuit_b628da"
+    >
+      ♥
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CardButton > baseline > should render unselected 1`] = `
+<div>
+  <div
+    aria-label="Ace of Hearts"
+    class="_CardButton_b628da _pointer_b628da"
+    role="button"
+  >
+    <p
+      class="_CardValue_b628da"
+    >
+      A
+    </p>
+    <p
+      class="_CardSuit_b628da"
+    >
+      ♥
+    </p>
+  </div>
+</div>
+`;
 
 exports[`CardButton baseline should render empty 1`] = `
 <div>
