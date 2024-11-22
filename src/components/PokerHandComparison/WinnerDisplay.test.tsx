@@ -1,7 +1,8 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Winner } from "../../core/types/Winner";
+import { Winner } from "@/core/types/Winner.ts";
 import { WinnerDisplay } from "./WinnerDisplay";
+import "@/test-helpers/testing-library-vitest";
 
 describe("Winner display", () => {
   it("should not display when no winner is decided yet", () => {

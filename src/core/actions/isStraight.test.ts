@@ -1,4 +1,4 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { isFiveHighStraight, isStraight } from "./isStraight";
 import { parseHandString } from "./parseHandString";
 

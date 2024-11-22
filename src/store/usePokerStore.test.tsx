@@ -1,4 +1,4 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { act, renderHook } from "@testing-library/react";
 import { CardSuitEnum, CardValueEnum } from "../core/types/Card";
 import { TestPokerStoreProvider } from "./testWrapper";

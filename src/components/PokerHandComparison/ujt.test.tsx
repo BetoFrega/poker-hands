@@ -1,8 +1,8 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { TestPokerStoreProvider } from "../../store/testWrapper";
 import { PokerHandComparison } from "./PokerHandComparison";
-import "@testing-library/jest-dom";
+import "@/test-helpers/testing-library-vitest";
 
 const getCardSelector = (player: 1 | 2) =>
   screen.getByLabelText(`P${player} Card Selector`);

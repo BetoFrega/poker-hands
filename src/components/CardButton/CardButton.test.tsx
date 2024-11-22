@@ -1,6 +1,6 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/react";
-import { CardSuitEnum, CardValueEnum } from "../../core/types/Card";
+import { CardSuitEnum, CardValueEnum } from "@/core/types/Card.ts";
 import { CardButton } from "./CardButton";
 
 describe("CardButton", () => {
